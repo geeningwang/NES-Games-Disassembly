@@ -32,8 +32,8 @@ con_btns_SAB                            = con_btn_Start + con_btn_A + con_btn_B 
 con_script_logo_and_title               = $00 ; 
 con_script_final_cutscene               = $01 ; 
 con_script_load_stage                   = $02 ; 
-con_script_stage_complete               = $03 ; 
-con_script_messages                     = $04 ; 
+con_script_add_score_and_prepare_message    = $03 ; 
+con_script_messages_handler             = $04 ; 
 con_script_game_over                    = $05 ; 
 con_script_menu                         = $06 ; 
 con_script_generate_password            = $07 ; 
@@ -49,6 +49,16 @@ con_ppu_copy_attr_2                     = $10 ; ram_nmt_attr_buffer_2
 con_ppu_copy_attr_1                     = $20 ; ram_nmt_attr_buffer_1
 con_ppu_copy_palette                    = $40 ; ram_pal_buffer
 ; con_ppu_80                            = $80 ; unused
+
+
+
+; ram_msg_id
+; ram_0095_msg_id
+; ram_009E_msg_id
+con_msg_id__100                         = $00 ; 
+con_msg_id__500                         = $01 ; 
+con_msg_id_1000                         = $02 ; 
+con_msg_id_1up                          = $03 ; 
 
 
 

@@ -217,7 +217,7 @@ ram_0020_temp                           = $0020 ; 00816A 0081CC 0082A8 0082C3 00
     ram_0020_t03                            = ram_0020_temp ; 
     ram_0020_t04_spr_X                      = ram_0020_temp ; 
     ram_0020_t05_columns                    = ram_0020_temp ; 
-    ram_0020_t06                            = ram_0020_temp ; 
+    ram_0020_t06_pos_X_lo                   = ram_0020_temp ; 
 
 
 
@@ -581,11 +581,14 @@ ram_stage_id_2                          = $0069 ; 008281 008299 0082AF 008E74 00
 
 
 ; 
-ram_006A                                = $006A ; 008288 00829D 0082B6 00952E 00C283 00C2A3 00C371 00C89A 00C8E1 00C9D1 00C9F9 00CA6C 00CA8F 00CAF4 00CB20 00CB69 00CBBC 00CBE6 00CC09 00CFCC 00D092 00D0D8 00D792 00E0B0 00E147 00E197 00E20F 00E2C1 00E4DA 00E4E3 00E4E8 00E58A 00E5E9 00E61D 00E643 00E72D 00E763 00EC37 
+ram_006A_temp                           = $006A ; 008288 00829D 0082B6 00952E 00C283 00C2A3 00C371 00C89A 00C8E1 00C9D1 00C9F9 00CA6C 00CA8F 00CAF4 00CB20 00CB69 00CBBC 00CBE6 00CC09 00CFCC 00D092 00D0D8 00D792 00E0B0 00E147 00E197 00E20F 00E2C1 00E4DA 00E4E3 00E4E8 00E58A 00E5E9 00E61D 00E643 00E72D 00E763 00EC37 
+    ram_006A_t01_pos_X_lo                   = ram_006A_temp ; 
+    ram_006A_t02_pos_X_lo                   = ram_006A_temp ; 
+    ram_006A_t03_pos_X_lo_obj               = ram_006A_temp ; 
 
 
 
-; 
+; todo temp
 ram_006B                                = $006B ; 0081EE 00821C 008222 008253 008268 009533 00C288 00C2AA 00C375 00C8A1 00C8E6 00C9D8 00CA00 00CA71 00CA94 00CAFB 00CB27 00CB70 00CBC1 00CBEB 00CC0E 00CFD1 00D097 00D0DD 00D796 00E0B5 00E14E 00E19E 00E216 00E2C6 00E4E1 00E4EA 00E4EE 00E58F 00E5F0 00E624 00E648 00E734 00E76A 00EC37 
 
 
@@ -764,7 +767,7 @@ ram_0094_temp                           = $0094 ; 00E45F 00E484 00EC37
 
 
 
-; 
+; see con_msg_id
 ram_0095_msg_id                         = $0095 ; 0094A5 0094A9 0094C9 009523 00954C 00EC37 
 
 
@@ -816,9 +819,9 @@ ram_copy_stage_id                       = $009D ; 00C6C9 00C6DD 00C6F2 00EC37
 
 
 
-; something to do with stage complete
-; 00-03
-ram_009E                                = $009E ; 0094A1 00EA30 00EC37 
+; bzk optimize, replace with ram_0095_msg_id
+; see con_msg_id
+ram_009E_msg_id                         = $009E ; 0094A1 00EA30 00EC37 
 
 
 
@@ -828,17 +831,19 @@ ram_menu_cursor_position                = $009F ; 008E39 008E5C 008E61 008E63 00
 
 
 
-; todo
-ram_00A0                                = $00A0 ; 00944F 00EC37 00F279 
-ram_00A1                                = $00A1 ; 009455 00EC37 00F27E 
-ram_00A2                                = $00A2 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A3                                = $00A3 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A4                                = $00A4 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A5                                = $00A5 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A6                                = $00A6 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A7                                = $00A7 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
-ram_00A8                                = $00A8 ; 009465 00946C 0094BC 0094C1 00951B 00EC37 00F2DE 
-ram_00A9                                = $00A9 ; 009465 00946C 0094BC 0094C1 00951B 00EC37 00F2DE 
+; 1st = columns (always 08)
+; 2nd = rows (always 01)
+; last 8 addresses = 8 digits
+ram_hiscore                             = $00A0 ; 00944F 00EC37 00F279 
+; ram_00A1                              = $00A1 ; 009455 00EC37 00F27E 
+; ram_00A2                              = $00A2 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A3                              = $00A3 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A4                              = $00A4 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A5                              = $00A5 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A6                              = $00A6 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A7                              = $00A7 ; 009465 00946C 0094BC 0094C1 009505 00951B 00EC37 00F2DE 
+; ram_00A8                              = $00A8 ; 009465 00946C 0094BC 0094C1 00951B 00EC37 00F2DE 
+; ram_00A9                              = $00A9 ; 009465 00946C 0094BC 0094C1 00951B 00EC37 00F2DE 
 
 
 
@@ -852,14 +857,12 @@ ram_00A9                                = $00A9 ; 009465 00946C 0094BC 0094C1 00
 
 
 
-; 
-ram_00B0                                = $00B0 ; 009451 00EC37 00F279 
-ram_00B1                                = $00B1 ; 009457 00EC37 00F27E 
-
-
-
-; 00B2-00B9 (08) 
-ram_00B2_unk                            = $00B2 ; 00945B 009462 0094B4 0094B9 009508 009518 00C046 00EC37 00F2DE 
+; 1st = columns (always 08)
+; 2nd = rows (always 01)
+; last 8 addresses = 8 digits
+ram_score                               = $00B0 ; 009451 00EC37 00F279 
+; ram_00B1                              = $00B1 ; 009457 00EC37 00F27E 
+; ram_00B2                              = $00B2 ; 00945B 009462 0094B4 0094B9 009508 009518 00C046 00EC37 00F2DE 
 ; ram_00B3                              = $00B3 ; 00945B 009462 0094B4 0094B9 0094E4 009508 009518 00C048 00EC37 00F2DE 
 ; ram_00B4                              = $00B4 ; 00945B 009462 0094B4 0094B9 0094E4 009508 009518 00C04A 00EC37 00F2DE 
 ; ram_00B5                              = $00B5 ; 00945B 009462 0094B4 0094B9 0094E4 0094EB 0094F1 009508 009518 00C04C 00EC37 00F2DE 
@@ -2595,8 +2598,7 @@ ram_msg_timer                           = $0635 ; 009549 009568 00956B 00EC49
 
 
 
-; 
-; 00 = 100, 01 = 500, 02 = 1000, 03 = 1up
+; see con_msg_id
 ram_msg_id                              = $0636 ; 00954E 009599 00EC49 
 
 

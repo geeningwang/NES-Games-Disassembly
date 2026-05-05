@@ -23,7 +23,7 @@ tbl_0x008010_script_handlers:
 - D 0 - - - 0x008012 02:8002: 07 84     .word ofs_000_8407_01_final_cutscene
 - D 0 - - - 0x008014 02:8004: F9 91     .word ofs_000_91F9_02_load_stage
 - D 0 - - - 0x008016 02:8006: 91 94     .word ofs_000_9491_03_stage_complete
-- D 0 - - - 0x008018 02:8008: 44 95     .word ofs_000_9544_04_messages
+- D 0 - - - 0x008018 02:8008: 44 95     .word ofs_000_9544_04_messages_handler
 - D 0 - - - 0x00801A 02:800A: 5F 90     .word ofs_000_905F_05_game_over
 - D 0 - - - 0x00801C 02:800C: EA 8D     .word ofs_000_8DEA_06_menu
 - D 0 - - - 0x00801E 02:800E: 9F 8F     .word ofs_000_8F9F_07_generate_password
@@ -1668,7 +1668,7 @@ C - - J - - 0x00906F 02:905F: 20 CD 91  JSR sub_91CD
 C - - - - - 0x009072 02:9062: A9 16     LDA #con_music_game_over
 C - - - - - 0x009074 02:9064: 20 A2 F7  JSR sub_0x00F7B2_play_sound
 C - - - - - 0x009077 02:9067: 20 21 93  JSR sub_9321
-C - - - - - 0x00907A 02:906A: 20 00 94  JSR sub_9400
+C - - - - - 0x00907A 02:906A: 20 00 94  JSR sub_9400_draw_midstage_screen
 C - - - - - 0x00907D 02:906D: 20 DF 92  JSR sub_92DF
 C - - - - - 0x009080 02:9070: 20 2B F2  JSR sub_0x00F23B_prepare_to_copy_buffer_to_ppu
 C - - - - - 0x009083 02:9073: 20 CD EE  JSR sub_0x00EEDD_wait_1_frm
@@ -1915,7 +1915,7 @@ C - - - - - 0x00920C 02:91FC: 20 CD 91  JSR sub_91CD
 C - - - - - 0x00920F 02:91FF: A9 09     LDA #con_music_menu
 C - - - - - 0x009211 02:9201: 20 A2 F7  JSR sub_0x00F7B2_play_sound
 C - - - - - 0x009214 02:9204: 20 21 93  JSR sub_9321
-C - - - - - 0x009217 02:9207: 20 00 94  JSR sub_9400
+C - - - - - 0x009217 02:9207: 20 00 94  JSR sub_9400_draw_midstage_screen
 C - - - - - 0x00921A 02:920A: 20 8B 93  JSR sub_938B
 C - - - - - 0x00921D 02:920D: 20 52 92  JSR sub_9252
 C - - - - - 0x009220 02:9210: 20 C1 F5  JSR sub_0x00F5D1_prepare_nametable_attributes_update
@@ -1983,7 +1983,7 @@ C - - - - - 0x009284 02:9274: 85 7F     STA ram_007F
 bra_9276:
 C - - - - - 0x009286 02:9276: A4 7F     LDY ram_007F
 C - - - - - 0x009288 02:9278: B9 82 92  LDA tbl_9282,Y
-C - - - - - 0x00928B 02:927B: 20 13 DB  JSR sub_0x00DB23
+C - - - - - 0x00928B 02:927B: 20 13 DB  JSR sub_0x00DB23_sprite_engine
 ; bzk optimize, JMP
 C - - - - - 0x00928E 02:927E: 20 EA EE  JSR sub_0x00EEFA_hide_unused_sprites
 C - - - - - 0x009291 02:9281: 60        RTS
@@ -2224,25 +2224,28 @@ C - - - - - 0x00940F 02:93FF: 60        RTS
 
 
 
-sub_9400:
-C - - - - - 0x009410 02:9400: A9 98     LDA #< tbl_9598
+sub_9400_draw_midstage_screen:
+; screen with stage number, lives and score
+C - - - - - 0x009410 02:9400: A9 98     LDA #< tbl_9598_txt_hi_score
 C - - - - - 0x009412 02:9402: 85 1E     STA ram_001E_t03_ppu_data
-C - - - - - 0x009414 02:9404: A9 95     LDA #> tbl_9598
+C - - - - - 0x009414 02:9404: A9 95     LDA #> tbl_9598_txt_hi_score
 C - - - - - 0x009416 02:9406: 85 1F     STA ram_001E_t03_ppu_data + $01
 C - - - - - 0x009418 02:9408: A9 AC     LDA #< $21AC
 C - - - - - 0x00941A 02:940A: 85 1C     STA ram_001C_t04_ppu_lo
 C - - - - - 0x00941C 02:940C: A9 21     LDA #> $21AC
 C - - - - - 0x00941E 02:940E: 85 1D     STA ram_001D_t01_ppu_hi
 C - - - - - 0x009420 02:9410: 20 30 F2  JSR sub_0x00F240_replace_tiles_with_new
-C - - - - - 0x009423 02:9413: A9 A2     LDA #< tbl_95A2
+; 
+C - - - - - 0x009423 02:9413: A9 A2     LDA #< tbl_95A2_txt_score
 C - - - - - 0x009425 02:9415: 85 1E     STA ram_001E_t03_ppu_data
-C - - - - - 0x009427 02:9417: A9 95     LDA #> tbl_95A2
+C - - - - - 0x009427 02:9417: A9 95     LDA #> tbl_95A2_txt_score
 C - - - - - 0x009429 02:9419: 85 1F     STA ram_001E_t03_ppu_data + $01
 C - - - - - 0x00942B 02:941B: A9 0C     LDA #< $220C
 C - - - - - 0x00942D 02:941D: 85 1C     STA ram_001C_t04_ppu_lo
 C - - - - - 0x00942F 02:941F: A9 22     LDA #> $220C
 C - - - - - 0x009431 02:9421: 85 1D     STA ram_001D_t01_ppu_hi
 C - - - - - 0x009433 02:9423: 20 30 F2  JSR sub_0x00F240_replace_tiles_with_new
+; 
 C - - - - - 0x009436 02:9426: A9 8C     LDA #< $218C
 C - - - - - 0x009438 02:9428: 85 1C     STA ram_001C_t04_ppu_lo
 C - - - - - 0x00943A 02:942A: A9 21     LDA #> $218C
@@ -2254,37 +2257,42 @@ C - - - - - 0x009444 02:9434: 85 20     STA ram_0020_t05_columns
 C - - - - - 0x009446 02:9436: A9 06     LDA #$06
 C - - - - - 0x009448 02:9438: 85 21     STA ram_0021_t02_rows
 C - - - - - 0x00944A 02:943A: 20 88 F4  JSR sub_0x00F498
-C - - - - - 0x00944D 02:943D: A9 08     LDA #$08
-C - - - - - 0x00944F 02:943F: 85 A0     STA ram_00A0
-C - - - - - 0x009451 02:9441: 85 B0     STA ram_00B0
-C - - - - - 0x009453 02:9443: A9 01     LDA #$01
-C - - - - - 0x009455 02:9445: 85 A1     STA ram_00A1
-C - - - - - 0x009457 02:9447: 85 B1     STA ram_00B1
+; 
+C - - - - - 0x00944D 02:943D: A9 08     LDA #$08    ; score digits
+C - - - - - 0x00944F 02:943F: 85 A0     STA ram_hiscore
+C - - - - - 0x009451 02:9441: 85 B0     STA ram_score
+C - - - - - 0x009453 02:9443: A9 01     LDA #$01    ; lines
+C - - - - - 0x009455 02:9445: 85 A1     STA ram_hiscore + $01
+C - - - - - 0x009457 02:9447: 85 B1     STA ram_score + $01
+; 
 C - - - - - 0x009459 02:9449: A0 00     LDY #$00
 bra_944B_loop:
-C - - - - - 0x00945B 02:944B: B9 B2 00  LDA ram_00B2_unk,Y
+C - - - - - 0x00945B 02:944B: B9 B2 00  LDA ram_score + $02,Y
 C - - - - - 0x00945E 02:944E: 29 0F     AND #$0F
 C - - - - - 0x009460 02:9450: 09 E0     ORA #$E0
-C - - - - - 0x009462 02:9452: 99 B2 00  STA ram_00B2_unk,Y
-C - - - - - 0x009465 02:9455: B9 A2 00  LDA ram_00A2,Y
+C - - - - - 0x009462 02:9452: 99 B2 00  STA ram_score + $02,Y
+; 
+C - - - - - 0x009465 02:9455: B9 A2 00  LDA ram_hiscore + $02,Y
 C - - - - - 0x009468 02:9458: 29 0F     AND #$0F
 C - - - - - 0x00946A 02:945A: 09 E0     ORA #$E0
-C - - - - - 0x00946C 02:945C: 99 A2 00  STA ram_00A2,Y
+C - - - - - 0x00946C 02:945C: 99 A2 00  STA ram_hiscore + $02,Y
 C - - - - - 0x00946F 02:945F: C8        INY
 C - - - - - 0x009470 02:9460: C0 08     CPY #$08
 C - - - - - 0x009472 02:9462: D0 E7     BNE bra_944B_loop
-C - - - - - 0x009474 02:9464: A9 A0     LDA #< ram_00A0
+; 
+C - - - - - 0x009474 02:9464: A9 A0     LDA #< ram_hiscore
 C - - - - - 0x009476 02:9466: 85 1E     STA ram_001E_t03_ppu_data
-C - - - - - 0x009478 02:9468: A9 00     LDA #> ram_00A0
+C - - - - - 0x009478 02:9468: A9 00     LDA #> ram_hiscore
 C - - - - - 0x00947A 02:946A: 85 1F     STA ram_001E_t03_ppu_data + $01
 C - - - - - 0x00947C 02:946C: A9 CC     LDA #< $21CC
 C - - - - - 0x00947E 02:946E: 85 1C     STA ram_001C_t04_ppu_lo
 C - - - - - 0x009480 02:9470: A9 21     LDA #> $21CC
 C - - - - - 0x009482 02:9472: 85 1D     STA ram_001D_t01_ppu_hi
 C - - - - - 0x009484 02:9474: 20 30 F2  JSR sub_0x00F240_replace_tiles_with_new
-C - - - - - 0x009487 02:9477: A9 B0     LDA #< ram_00B0
+; 
+C - - - - - 0x009487 02:9477: A9 B0     LDA #< ram_score
 C - - - - - 0x009489 02:9479: 85 1E     STA ram_001E_t03_ppu_data
-C - - - - - 0x00948B 02:947B: A9 00     LDA #> ram_00B0
+C - - - - - 0x00948B 02:947B: A9 00     LDA #> ram_score
 C - - - - - 0x00948D 02:947D: 85 1F     STA ram_001E_t03_ppu_data + $01
 C - - - - - 0x00948F 02:947F: A9 2C     LDA #< $222C
 C - - - - - 0x009491 02:9481: 85 1C     STA ram_001C_t04_ppu_lo
@@ -2299,66 +2307,68 @@ C - - - - - 0x0094A0 02:9490: 60        RTS
 
 
 ofs_000_9491_03_stage_complete:
-; con_script_stage_complete
-C - - J - - 0x0094A1 02:9491: A5 9E     LDA ram_009E
+; con_script_add_score_and_prepare_message
+C - - J - - 0x0094A1 02:9491: A5 9E     LDA ram_009E_msg_id
 ; bzk optimize, useless AND, values already 00-03 only
 C - - - - - 0x0094A3 02:9493: 29 03     AND #$03
 C - - - - - 0x0094A5 02:9495: 85 95     STA ram_0095_msg_id
 C - - - - - 0x0094A7 02:9497: 98        TYA
 C - - - - - 0x0094A8 02:9498: 48        PHA
 C - - - - - 0x0094A9 02:9499: A5 95     LDA ram_0095_msg_id
-C - - - - - 0x0094AB 02:949B: C9 03     CMP #$03
-C - - - - - 0x0094AD 02:949D: D0 03     BNE bra_94A2
-C - - - - - 0x0094AF 02:949F: 4C 13 95  JMP loc_9513
-bra_94A2:
+C - - - - - 0x0094AB 02:949B: C9 03     CMP #con_msg_id_1up
+C - - - - - 0x0094AD 02:949D: D0 03     BNE bra_94A2_it_is_points_message
+C - - - - - 0x0094AF 02:949F: 4C 13 95  JMP loc_9513_skip_points
+bra_94A2_it_is_points_message:
 C - - - - - 0x0094B2 02:94A2: A0 00     LDY #$00
 bra_94A4_loop:
-C - - - - - 0x0094B4 02:94A4: B9 B2 00  LDA ram_00B2_unk,Y
+C - - - - - 0x0094B4 02:94A4: B9 B2 00  LDA ram_score + $02,Y
 C - - - - - 0x0094B7 02:94A7: 29 0F     AND #$0F
-C - - - - - 0x0094B9 02:94A9: 99 B2 00  STA ram_00B2_unk,Y
-C - - - - - 0x0094BC 02:94AC: B9 A2 00  LDA ram_00A2,Y
+C - - - - - 0x0094B9 02:94A9: 99 B2 00  STA ram_score + $02,Y
+C - - - - - 0x0094BC 02:94AC: B9 A2 00  LDA ram_hiscore + $02,Y
 C - - - - - 0x0094BF 02:94AF: 29 0F     AND #$0F
-C - - - - - 0x0094C1 02:94B1: 99 A2 00  STA ram_00A2,Y
+C - - - - - 0x0094C1 02:94B1: 99 A2 00  STA ram_hiscore + $02,Y
 C - - - - - 0x0094C4 02:94B4: C8        INY
 C - - - - - 0x0094C5 02:94B5: C0 08     CPY #$08
 C - - - - - 0x0094C7 02:94B7: D0 EB     BNE bra_94A4_loop
 C - - - - - 0x0094C9 02:94B9: A5 95     LDA ram_0095_msg_id
-C - - - - - 0x0094CB 02:94BB: F0 09     BEQ bra_94C6
-C - - - - - 0x0094CD 02:94BD: C9 01     CMP #$01
-C - - - - - 0x0094CF 02:94BF: F0 0A     BEQ bra_94CB
-C - - - - - 0x0094D1 02:94C1: E6 B6     INC ram_00B2_unk + $04
+C - - - - - 0x0094CB 02:94BB: F0 09     BEQ bra_94C6_100_points    ; if con_msg_id__100
+C - - - - - 0x0094CD 02:94BD: C9 01     CMP #con_msg_id__500
+C - - - - - 0x0094CF 02:94BF: F0 0A     BEQ bra_94CB_500_points
+; if con_msg_id_1000
+C - - - - - 0x0094D1 02:94C1: E6 B6     INC ram_score + $06
 C - - - - - 0x0094D3 02:94C3: 4C D2 94  JMP loc_94D2
-bra_94C6:
-C - - - - - 0x0094D6 02:94C6: E6 B7     INC ram_00B2_unk + $05
+bra_94C6_100_points:
+C - - - - - 0x0094D6 02:94C6: E6 B7     INC ram_score + $07
 C - - - - - 0x0094D8 02:94C8: 4C D2 94  JMP loc_94D2
-bra_94CB:
-C - - - - - 0x0094DB 02:94CB: A5 B7     LDA ram_00B2_unk + $05
+bra_94CB_500_points:
+C - - - - - 0x0094DB 02:94CB: A5 B7     LDA ram_score + $07
 C - - - - - 0x0094DD 02:94CD: 18        CLC
 C - - - - - 0x0094DE 02:94CE: 69 05     ADC #$05
-C - - - - - 0x0094E0 02:94D0: 85 B7     STA ram_00B2_unk + $05
+C - - - - - 0x0094E0 02:94D0: 85 B7     STA ram_score + $07
 loc_94D2:
 C D 0 - - - 0x0094E2 02:94D2: A0 07     LDY #$07
 bra_94D4_loop:
 loc_94D4_loop:
-C D 0 - - - 0x0094E4 02:94D4: B9 B2 00  LDA ram_00B2_unk,Y
+C D 0 - - - 0x0094E4 02:94D4: B9 B2 00  LDA ram_score + $02,Y
 C - - - - - 0x0094E7 02:94D7: C9 0A     CMP #$0A
 C - - - - - 0x0094E9 02:94D9: 90 15     BCC bra_94F0
-C - - - - - 0x0094EB 02:94DB: B9 B1 00  LDA ram_00B1,Y
+C - - - - - 0x0094EB 02:94DB: B9 B1 00  LDA ram_score + $02 - $01,Y
 C - - - - - 0x0094EE 02:94DE: 18        CLC
 C - - - - - 0x0094EF 02:94DF: 69 01     ADC #$01
-C - - - - - 0x0094F1 02:94E1: 99 B1 00  STA ram_00B1,Y
-C - - - - - 0x0094F4 02:94E4: B9 B2 00  LDA ram_00B2_unk,Y
+C - - - - - 0x0094F1 02:94E1: 99 B1 00  STA ram_score + $02 - $01,Y
+; 
+C - - - - - 0x0094F4 02:94E4: B9 B2 00  LDA ram_score + $02,Y
 C - - - - - 0x0094F7 02:94E7: 38        SEC
 C - - - - - 0x0094F8 02:94E8: E9 0A     SBC #$0A
-C - - - - - 0x0094FA 02:94EA: 99 B2 00  STA ram_00B2_unk,Y
+C - - - - - 0x0094FA 02:94EA: 99 B2 00  STA ram_score + $02,Y
 C - - - - - 0x0094FD 02:94ED: 4C D4 94  JMP loc_94D4_loop
 bra_94F0:
 C - - - - - 0x009500 02:94F0: 88        DEY
 C - - - - - 0x009501 02:94F1: D0 E1     BNE bra_94D4_loop
 C - - - - - 0x009503 02:94F3: A0 00     LDY #$00
 bra_94F5_loop:
-C - - - - - 0x009505 02:94F5: B9 A2 00  LDA ram_00A2,Y
-C - - - - - 0x009508 02:94F8: D9 B2 00  CMP ram_00B2_unk,Y
+C - - - - - 0x009505 02:94F5: B9 A2 00  LDA ram_hiscore + $02,Y
+C - - - - - 0x009508 02:94F8: D9 B2 00  CMP ram_score + $02,Y
 C - - - - - 0x00950B 02:94FB: F0 04     BEQ bra_9501
 C - - - - - 0x00950D 02:94FD: 10 14     BPL bra_9513
 C - - - - - 0x00950F 02:94FF: 30 05     BMI bra_9506    ; jmp
@@ -2369,22 +2379,24 @@ C - - - - - 0x009514 02:9504: D0 EF     BNE bra_94F5_loop
 bra_9506:
 C - - - - - 0x009516 02:9506: A0 00     LDY #$00
 bra_9508_loop:
-C - - - - - 0x009518 02:9508: B9 B2 00  LDA ram_00B2_unk,Y
-C - - - - - 0x00951B 02:950B: 99 A2 00  STA ram_00A2,Y
+C - - - - - 0x009518 02:9508: B9 B2 00  LDA ram_score + $02,Y
+C - - - - - 0x00951B 02:950B: 99 A2 00  STA ram_hiscore + $02,Y
 C - - - - - 0x00951E 02:950E: C8        INY
 C - - - - - 0x00951F 02:950F: C0 08     CPY #$08
 C - - - - - 0x009521 02:9511: D0 F5     BNE bra_9508_loop
 bra_9513:
-loc_9513:
+loc_9513_skip_points:
+; prepare message
 C D 0 - - - 0x009523 02:9513: A5 95     LDA ram_0095_msg_id
 ; * 08
 C - - - - - 0x009525 02:9515: 0A        ASL
 C - - - - - 0x009526 02:9516: 0A        ASL
 C - - - - - 0x009527 02:9517: 0A        ASL
 C - - - - - 0x009528 02:9518: A8        TAY
+; 
 C - - - - - 0x009529 02:9519: A9 80     LDA #$80
 C - - - - - 0x00952B 02:951B: 99 30 06  STA ram_msg_state,Y
-C - - - - - 0x00952E 02:951E: A5 6A     LDA ram_006A
+C - - - - - 0x00952E 02:951E: A5 6A     LDA ram_006A_t01_pos_X_lo
 C - - - - - 0x009530 02:9520: 99 31 06  STA ram_pos_X_lo_msg,Y
 C - - - - - 0x009533 02:9523: A5 6B     LDA ram_006B
 C - - - - - 0x009535 02:9525: 99 32 06  STA ram_pos_X_hi_msg,Y
@@ -2405,12 +2417,13 @@ C - - - - - 0x009553 02:9543: 60        RTS
 
 
 
-ofs_000_9544_04_messages:
-; con_script_messages
+ofs_000_9544_04_messages_handler:
+; con_script_messages_handler
 C - - J - - 0x009554 02:9544: A2 00     LDX #$00
 bra_9546_loop:
 C - - - - - 0x009556 02:9546: BD 30 06  LDA ram_msg_state,X
 C - - - - - 0x009559 02:9549: 10 03     BPL bra_954E_does_not_exist
+; if message exists
 C - - - - - 0x00955B 02:954B: 20 58 95  JSR sub_9558
 bra_954E_does_not_exist:
 C - - - - - 0x00955E 02:954E: 8A        TXA
@@ -2445,31 +2458,33 @@ C - - - - - 0x00958F 02:957F: 85 79     STA ram_0079
 C - - - - - 0x009591 02:9581: E9 00     SBC #> $0001
 C - - - - - 0x009593 02:9583: 9D 34 06  STA ram_pos_Y_hi_msg,X
 C - - - - - 0x009596 02:9586: 20 07 CF  JSR sub_0x00CF17
+; bzk optimimize, LDY,X
 C - - - - - 0x009599 02:9589: BD 36 06  LDA ram_msg_id,X
 C - - - - - 0x00959C 02:958C: A8        TAY
+; 
 C - - - - - 0x00959D 02:958D: B9 94 95  LDA tbl_9594,Y
 ; bzk optimize, JMP
-C - - - - - 0x0095A0 02:9590: 20 13 DB  JSR sub_0x00DB23
+C - - - - - 0x0095A0 02:9590: 20 13 DB  JSR sub_0x00DB23_sprite_engine
 C - - - - - 0x0095A3 02:9593: 60        RTS
 
 
 
 tbl_9594:
-- D 0 - - - 0x0095A4 02:9594: 61        .byte $61   ; 00 100
-- D 0 - - - 0x0095A5 02:9595: 62        .byte $62   ; 01 500
-- D 0 - - - 0x0095A6 02:9596: 63        .byte $63   ; 02 1000
-- D 0 - - - 0x0095A7 02:9597: 64        .byte $64   ; 03 1up
+- D 0 - - - 0x0095A4 02:9594: 61        .byte $61   ; 00 con_msg_id__100
+- D 0 - - - 0x0095A5 02:9595: 62        .byte $62   ; 01 con_msg_id__500
+- D 0 - - - 0x0095A6 02:9596: 63        .byte $63   ; 02 con_msg_id_1000
+- D 0 - - - 0x0095A7 02:9597: 64        .byte $64   ; 03 con_msg_id_1up
 
 
 
-tbl_9598:
+tbl_9598_txt_hi_score:
 - D 0 - I - 0x0095A8 02:9598: 08        .byte $08   ; columns
 - D 0 - I - 0x0095A9 02:9599: 01        .byte $01   ; rows
 - D 0 - I - 0x0095AA 02:959A: C7        .byte $C7, $C8, $DB, $D2, $C2, $CE, $D1, $C4   ; 01 
 
 
 
-tbl_95A2:
+tbl_95A2_txt_score:
 - D 0 - I - 0x0095B2 02:95A2: 08        .byte $08   ; columns
 - D 0 - I - 0x0095B3 02:95A3: 01        .byte $01   ; rows
 - D 0 - I - 0x0095B4 02:95A4: D2        .byte $D2, $C2, $CE, $D1, $C4, $FF, $FF, $FF   ; 01 
