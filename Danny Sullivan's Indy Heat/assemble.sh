@@ -4,6 +4,7 @@
 # notice: Terminal only for MacOSX, Linux and MinGW
 # usage: sh assemble.sh
 
+NES_IGNORE_COMPILE_ASM_ARRAY=(bank___FFD0_FFF9.asm copy_bank___FFD0_FFF9.asm)
 NES_OUTPUT_SIMPLE_NAME=_danny_sullivans_indy_heat
 NES_OUTPUT_FILE_SIZE=131088
 NES_OUTPUT_FILE_SHA1_ORIGINAL="45404AEAC39E5855034C43554CA252DE17131BBE"
