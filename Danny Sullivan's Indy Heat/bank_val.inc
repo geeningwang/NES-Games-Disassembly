@@ -167,15 +167,71 @@ con_00CC_script_2C                      = $2C ;
 
 
 
+; todo (most not used directly)
+; ram_demo_script
+; index for 0x0000FA
+con_05F2_00                             = $00 ; no demo
+con_05F2_01                             = $01 ; 
+con_05F2_02                             = $02 ; logo screen
+con_05F2_03                             = $03 ; Danny's tips/awesome wins screen
+con_05F2_04                             = $04 ; demo race
+con_05F2_05                             = $05 ; race winners screen
+con_05F2_06                             = $06 ; circut leaders screen
+con_05F2_07                             = $07 ; 
+con_05F2_08                             = $08 ; top ten drivers screen
+con_05F2_09                             = $09 ; Danny's tips/awesome wins screen
+con_05F2_0A                             = $0A ; logo screen
+con_05F2_0B                             = $0B ; demo race
+con_05F2_0C                             = $0C ; race winners screen
+con_05F2_0D                             = $0D ; circut leaders screen
+con_05F2_0E                             = $0E ; 
+con_05F2_0F                             = $0F ; top ten drivers screen
+con_05F2_10                             = $10 ; Danny's tips/awesome wins screen
+con_05F2_11                             = $11 ; 
+con_05F2_12                             = $12 ; 
+
+con_05F2_80                             = $80 ; stop demo
+
+
+
 ; index for 0x0182A4
-con_8294_00                             = $00 ; 
-con_8294_02                             = $02 ; 
-con_8294_04                             = $04 ; 
-con_8294_06                             = $06 ; 
-con_8294_08                             = $08 ; 
-con_8294_0A                             = $0A ; 
-; con_8294_0C                           = $0C ; unused
-con_8294_0E                             = $0E ; 
+; decompression handlers
+con_decomp_00                           = $00 ; 
+con_decomp_02                           = $02 ; 
+con_decomp_04                           = $04 ; 
+con_decomp_06                           = $06 ; 
+con_decomp_08                           = $08 ; 
+con_decomp_0A                           = $0A ; 
+; con_decomp_0C                         = $0C ; unused
+con_decomp_0E                           = $0E ; 
+
+
+
+; ram_0015_t01
+; index for 0x018465
+; need comments 0x0015E6
+con_8455_00                             = $00 ; 
+con_8455_01                             = $01 ; 
+con_8455_02                             = $02 ; 
+con_8455_03                             = $03 ; 
+con_8455_04                             = $04 ; 
+con_8455_05                             = $05 ; 
+con_8455_06                             = $06 ; same as 07
+con_8455_07                             = $07 ; same as 06
+con_8455_08                             = $08 ; 
+con_8455_09                             = $09 ; 
+con_8455_0A                             = $0A ; 
+con_8455_0B                             = $0B ; 
+con_8455_0C                             = $0C ; 
+con_8455_0D                             = $0D ; 
+con_8455_0E                             = $0E ; 
+con_8455_0F                             = $0F ; 
+con_8455_10                             = $10 ; 
+con_8455_11                             = $11 ; 
+con_8455_12                             = $12 ; 
+; con_8455_13                           = $13 ; unused
+con_8455_14                             = $14 ; 
+con_8455_15                             = $15 ; 
 
 
 

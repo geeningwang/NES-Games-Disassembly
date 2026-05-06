@@ -10,7 +10,8 @@
 
 
 
-sub_8000_indirect_jump_0008:
+sub_out_8000_indirect_jump_0008:
+; bzk JSR to it is at 0x007FEC inside included bank
 C - - - - - 0x018010 06:8000: 6C 08 00  JMP (ram_prg_bank_pointer)
 
 ; 03
@@ -418,9 +419,9 @@ C - - - - - 0x01826F 06:825F: 85 15     STA ram_0015_t02_loop_counter
 C - - - - - 0x018271 06:8261: C8        INY ; 01
 C - - - - - 0x018272 06:8262: B1 11     LDA (ram_0011_t23_data),Y
 C - - - - - 0x018274 06:8264: AA        TAX
-C - - - - - 0x018275 06:8265: BD 94 82  LDA tbl_8294_decompression_routine,X
+C - - - - - 0x018275 06:8265: BD 94 82  LDA tbl_8294_decompression_handlers,X
 C - - - - - 0x018278 06:8268: 85 0D     STA ram_000D_t09_jmp
-C - - - - - 0x01827A 06:826A: BD 95 82  LDA tbl_8294_decompression_routine + $01,X
+C - - - - - 0x01827A 06:826A: BD 95 82  LDA tbl_8294_decompression_handlers + $01,X
 C - - - - - 0x01827D 06:826D: 85 0E     STA ram_000D_t09_jmp + $01
 C - - - - - 0x01827F 06:826F: C8        INY ; 02
 C - - - - - 0x018280 06:8270: B1 11     LDA (ram_0011_t23_data),Y
@@ -446,21 +447,21 @@ C - - - - - 0x0182A1 06:8291: 6C 0D 00  JMP (ram_000D_t09_jmp)
 
 
 
-tbl_8294_decompression_routine:
-; see con_8294
-- D 0 - - - 0x0182A4 06:8294: E2 83     .word ofs_011_83E2_00
-- D 0 - - - 0x0182A6 06:8296: 05 84     .word ofs_011_8405_02
-- D 0 - - - 0x0182A8 06:8298: 9A 83     .word ofs_011_839A_04
-- D 0 - - - 0x0182AA 06:829A: 4D 83     .word ofs_011_834D_06
-- D 0 - - - 0x0182AC 06:829C: AA 83     .word ofs_011_83AA_08
-- D 0 - - - 0x0182AE 06:829E: BA 83     .word ofs_011_83BA_0A
-- - - - - - 0x0182B0 06:82A0: 36 83     .word ofs_011_8336_0C   ; unused, index doesn't exist
-- D 0 - - - 0x0182B2 06:82A2: A4 82     .word ofs_011_82A4_0E
+tbl_8294_decompression_handlers:
+; see con_decomp
+- D 0 - - - 0x0182A4 06:8294: E2 83     .word ofs_011_decompression_handler_83E2_00
+- D 0 - - - 0x0182A6 06:8296: 05 84     .word ofs_011_decompression_handler_8405_02
+- D 0 - - - 0x0182A8 06:8298: 9A 83     .word ofs_011_decompression_handler_839A_04
+- D 0 - - - 0x0182AA 06:829A: 4D 83     .word ofs_011_decompression_handler_834D_06
+- D 0 - - - 0x0182AC 06:829C: AA 83     .word ofs_011_decompression_handler_83AA_08
+- D 0 - - - 0x0182AE 06:829E: BA 83     .word ofs_011_decompression_handler_83BA_0A
+- - - - - - 0x0182B0 06:82A0: 36 83     .word ofs_011_decompression_handler_8336_0C   ; unused, index doesn't exist
+- D 0 - - - 0x0182B2 06:82A2: A4 82     .word ofs_011_decompression_handler_82A4_0E
 
 
 
-ofs_011_82A4_0E:
-; con_8294_0E
+ofs_011_decompression_handler_82A4_0E:
+; con_decomp_0E
 ; huge letters?
 C - - J - - 0x0182B4 06:82A4: A0 00     LDY #$00
 bra_82A6_loop:
@@ -576,8 +577,8 @@ tbl_8326:
 
 
 
-ofs_011_8336_0C:
-; con_8294_0C
+ofs_011_decompression_handler_8336_0C:
+; con_decomp_0C
 ; bzk garbage
 ; write 8 FF bytes, then write 8 specific bytes
 bra_8336_loop:
@@ -595,8 +596,8 @@ bra_833A_loop:
 
 
 
-ofs_011_834D_06:
-; con_8294_06
+ofs_011_decompression_handler_834D_06:
+; con_decomp_06
 bra_834D_loop:
 C - - J - - 0x01835D 06:834D: A5 13     LDA ram_0013_t07_data
 C - - - - - 0x01835F 06:834F: 18        CLC
@@ -609,7 +610,7 @@ C - - - - - 0x01836A 06:835A: A0 00     LDY #$00
 bra_835C_loop:
 C - - - - - 0x01836C 06:835C: B1 13     LDA (ram_0013_t07_data),Y
 C - - - - - 0x01836E 06:835E: 31 0D     AND (ram_000D_t04_data),Y
-C - - - - - 0x018370 06:8360: 85 18     STA ram_0018_temp
+C - - - - - 0x018370 06:8360: 85 18     STA ram_0018_t26
 C - - - - - 0x018372 06:8362: 49 FF     EOR #$FF
 C - - - - - 0x018374 06:8364: 85 19     STA ram_0019_t03
 C - - - - - 0x018376 06:8366: B1 0D     LDA (ram_000D_t04_data),Y
@@ -621,7 +622,7 @@ C - - - - - 0x018380 06:8370: 05 17     ORA ram_0017_t24
 C - - - - - 0x018382 06:8372: 99 20 07  STA ram_ppu_buffer + $20,Y
 C - - - - - 0x018385 06:8375: B1 0D     LDA (ram_000D_t04_data),Y
 C - - - - - 0x018387 06:8377: 25 19     AND ram_0019_t03
-C - - - - - 0x018389 06:8379: 05 18     ORA ram_0018_temp
+C - - - - - 0x018389 06:8379: 05 18     ORA ram_0018_t26
 C - - - - - 0x01838B 06:837B: 99 28 07  STA ram_ppu_buffer + $28,Y
 C - - - - - 0x01838E 06:837E: C8        INY
 C - - - - - 0x01838F 06:837F: C0 08     CPY #$08
@@ -640,8 +641,8 @@ C - - - - - 0x0183A7 06:8397: 4C 58 82  JMP loc_8258_reading_data_loop
 
 
 
-ofs_011_839A_04:
-; con_8294_04
+ofs_011_decompression_handler_839A_04:
+; con_decomp_04
 ; write 8 specific bytes, then write 8 00 bytes, then repeat
 bra_839A_loop:
 C - - J - - 0x0183AA 06:839A: 20 CA 83  JSR sub_83CA_write_8_specific_bytes_to_ppu
@@ -653,8 +654,8 @@ C - - - - - 0x0183B7 06:83A7: 4C 58 82  JMP loc_8258_reading_data_loop
 
 
 
-ofs_011_83AA_08:
-; con_8294_08
+ofs_011_decompression_handler_83AA_08:
+; con_decomp_08
 ; write 8 00 bytes, then write 8 specific bytes, then repeat
 bra_83AA_loop:
 C - - J - - 0x0183BA 06:83AA: 20 D7 83  JSR sub_83D7_write_8_00_bytes_to_ppu
@@ -666,8 +667,8 @@ C - - - - - 0x0183C7 06:83B7: 4C 58 82  JMP loc_8258_reading_data_loop
 
 
 
-ofs_011_83BA_0A:
-; con_8294_0A
+ofs_011_decompression_handler_83BA_0A:
+; con_decomp_0A
 ; write the same 8 bytes 2 times, then repeat
 bra_83BA_loop:
 C - - J - - 0x0183CA 06:83BA: 20 CA 83  JSR sub_83CA_write_8_specific_bytes_to_ppu
@@ -702,8 +703,8 @@ C - - - - - 0x0183F1 06:83E1: 60        RTS
 
 
 
-ofs_011_83E2_00:
-; con_8294_00
+ofs_011_decompression_handler_83E2_00:
+; con_decomp_00
 bra_83E2_loop:
 C - - J - - 0x0183F2 06:83E2: A0 00     LDY #$00
 bra_83E4_loop:
@@ -732,8 +733,8 @@ C - - - - - 0x018414 06:8404: 60        RTS
 
 
 
-ofs_011_8405_02:
-; con_8294_02
+ofs_011_decompression_handler_8405_02:
+; con_decomp_02
 C - - J - - 0x018415 06:8405: A0 00     LDY #$00
 C - - - - - 0x018417 06:8407: B1 13     LDA (ram_0013_t07_data),Y
 C - - - - - 0x018419 06:8409: 85 16     STA ram_0016_t40_control_byte_for_00
@@ -768,7 +769,7 @@ C - - - - - 0x018443 06:8433: A9 FF     LDA #$FF
 bra_8435:
 C - - - - - 0x018445 06:8435: 48        PHA
 C - - - - - 0x018446 06:8436: B1 13     LDA (ram_0013_t07_data),Y
-C - - - - - 0x018448 06:8438: 85 18     STA ram_0018_temp    ; counter for 00/FF bytes
+C - - - - - 0x018448 06:8438: 85 18     STA ram_0018_t25_counter    ; counter for 00/FF bytes
 C - - - - - 0x01844A 06:843A: 68        PLA
 C - - - - - 0x01844B 06:843B: C8        INY
 C - - - - - 0x01844C 06:843C: D0 02     BNE bra_8440_not_overflow
@@ -779,7 +780,7 @@ C - - - - - 0x018450 06:8440: 8D 07 20  STA $2007
 C - - - - - 0x018453 06:8443: CA        DEX
 C - - - - - 0x018454 06:8444: 30 06     BMI bra_844C
 bra_8446_loop:
-C - - - - - 0x018456 06:8446: C6 18     DEC ram_0018_temp
+C - - - - - 0x018456 06:8446: C6 18     DEC ram_0018_t25_counter    ; counter for 00/FF bytes
 C - - - - - 0x018458 06:8448: D0 F6     BNE bra_8440_loop
 C - - - - - 0x01845A 06:844A: F0 C7     BEQ bra_8413_loop    ; jmp
 bra_844C:
@@ -791,6 +792,7 @@ C - - - - - 0x018462 06:8452: 4C 58 82  JMP loc_8258_reading_data_loop
 
 
 tbl_8455:
+; see con_8455
 - D 0 - - - 0x018465 06:8455: BA 84     .word _off015_84BA_00
 - D 0 - - - 0x018467 06:8457: C1 84     .word _off015_84C1_01
 - D 0 - - - 0x018469 06:8459: CF 84     .word _off015_84CF_02
@@ -810,580 +812,600 @@ tbl_8455:
 - D 0 - - - 0x018485 06:8475: 96 86     .word _off015_8696_10
 - D 0 - - - 0x018487 06:8477: C7 86     .word _off015_86C7_11
 - D 0 - - - 0x018489 06:8479: DA 86     .word _off015_86DA_12
-- - - - - - 0x01848B 06:847B: F4 86     .word _off015_86F4_13
+- - - - - - 0x01848B 06:847B: F4 86     .word _off015_86F4_13   ; unused, index doesn't exist
 - D 0 - - - 0x01848D 06:847D: 2C 85     .word _off015_852C_14
 - D 0 - - - 0x01848F 06:847F: C6 85     .word _off015_85C6_15
 
 
 
 _off015_8481_04:
+; con_8455_04
 - D 0 - I - 0x018491 06:8481: FB        .byte $FB   ; counter
-- D 0 - I - 0x018492 06:8482: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018492 06:8482: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018493 06:8483: 06 87     .word off_04_8706
-- D 0 - I - 0x018495 06:8485: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x018495 06:8485: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x018497 06:8487: 20        .byte $20   ; counter
-- D 0 - I - 0x018498 06:8488: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018498 06:8488: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018499 06:8489: C9 93     .word off_04_93C9
-- D 0 - I - 0x01849B 06:848B: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x01849B 06:848B: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x01849D 06:848D: 00        .byte $00   ; end token
 
 
 
 _off015_848E_05:
+; con_8455_05
 - D 0 - I - 0x01849E 06:848E: 01        .byte $01   ; counter
-- D 0 - I - 0x01849F 06:848F: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x01849F 06:848F: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0184A0 06:8490: EA 96     .word off_05_96EA
-- D 0 - I - 0x0184A2 06:8492: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x0184A2 06:8492: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x0184A4 06:8494: 01        .byte $01   ; counter
-- D 0 - I - 0x0184A5 06:8495: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0184A5 06:8495: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0184A6 06:8496: EA 96     .word off_05_96EA
-- D 0 - I - 0x0184A8 06:8498: 00 12     .word $1200 ; ppu
+- D 0 - I - 0x0184A8 06:8498: 00 12     .word $1200 ; ppu address
 
 - D 0 - I - 0x0184AA 06:849A: 1C        .byte $1C   ; counter
-- D 0 - I - 0x0184AB 06:849B: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0184AB 06:849B: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0184AC 06:849C: 12 96     .word off_05_9612
-- D 0 - I - 0x0184AE 06:849E: 00 14     .word $1400 ; ppu
+- D 0 - I - 0x0184AE 06:849E: 00 14     .word $1400 ; ppu address
 
 - D 0 - I - 0x0184B0 06:84A0: 04        .byte $04   ; counter
-- D 0 - I - 0x0184B1 06:84A1: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0184B1 06:84A1: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0184B2 06:84A2: F2 96     .word off_05_96F2
-- D 0 - I - 0x0184B4 06:84A4: C0 12     .word $12C0 ; ppu
+- D 0 - I - 0x0184B4 06:84A4: C0 12     .word $12C0 ; ppu address
 
 - D 0 - I - 0x0184B6 06:84A6: 0F        .byte $0F   ; counter
-- D 0 - I - 0x0184B7 06:84A7: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0184B7 06:84A7: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0184B8 06:84A8: 12 97     .word off_05_9712
-- D 0 - I - 0x0184BA 06:84AA: 00 13     .word $1300 ; ppu
+- D 0 - I - 0x0184BA 06:84AA: 00 13     .word $1300 ; ppu address
 
 - D 0 - I - 0x0184BC 06:84AC: 18        .byte $18   ; counter
-- D 0 - I - 0x0184BD 06:84AD: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184BD 06:84AD: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184BE 06:84AE: AA 97     .word off_05_97AA
-- D 0 - I - 0x0184C0 06:84B0: 00 18     .word $1800 ; ppu
+- D 0 - I - 0x0184C0 06:84B0: 00 18     .word $1800 ; ppu address
 
 - D 0 - I - 0x0184C2 06:84B2: 00        .byte $00   ; end token
 
 
 
 _off015_84B3_0E:
+; con_8455_0E
 - D 0 - I - 0x0184C3 06:84B3: 4C        .byte $4C   ; counter
-- D 0 - I - 0x0184C4 06:84B4: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184C4 06:84B4: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184C5 06:84B5: 66 AF     .word off_0E_AF66
-- D 0 - I - 0x0184C7 06:84B7: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x0184C7 06:84B7: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x0184C9 06:84B9: 00        .byte $00   ; end token
 
 
 
 _off015_84BA_00:
+; con_8455_00
 - D 0 - I - 0x0184CA 06:84BA: B3        .byte $B3   ; counter
-- D 0 - I - 0x0184CB 06:84BB: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184CB 06:84BB: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184CC 06:84BC: 3D B3     .word off_00_B33D
-- D 0 - I - 0x0184CE 06:84BE: C0 14     .word $14C0 ; ppu
+- D 0 - I - 0x0184CE 06:84BE: C0 14     .word $14C0 ; ppu address
 
 - D 0 - I - 0x0184D0 06:84C0: 00        .byte $00   ; end token
 
 
 
 _off015_84C1_01:
+; con_8455_01
 - D 0 - I - 0x0184D1 06:84C1: 73        .byte $73   ; counter
-- D 0 - I - 0x0184D2 06:84C2: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184D2 06:84C2: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184D3 06:84C3: B8 BC     .word off_01_BCB8
-- D 0 - I - 0x0184D5 06:84C5: C0 14     .word $14C0 ; ppu
+- D 0 - I - 0x0184D5 06:84C5: C0 14     .word $14C0 ; ppu address
 
 - D 0 - I - 0x0184D7 06:84C7: 00        .byte $00   ; end token
 
 
 
 _off015_84C8_03:
+; con_8455_03
 - D 0 - I - 0x0184D8 06:84C8: 75        .byte $75   ; counter
-- D 0 - I - 0x0184D9 06:84C9: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184D9 06:84C9: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184DA 06:84CA: CC C2     .word off_03_C2CC
-- D 0 - I - 0x0184DC 06:84CC: C0 14     .word $14C0 ; ppu
+- D 0 - I - 0x0184DC 06:84CC: C0 14     .word $14C0 ; ppu address
 
 - D 0 - I - 0x0184DE 06:84CE: 00        .byte $00   ; end token
 
 
 
 _off015_84CF_02:
+; con_8455_02
 - D 0 - I - 0x0184DF 06:84CF: B2        .byte $B2   ; counter
-- D 0 - I - 0x0184E0 06:84D0: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184E0 06:84D0: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184E1 06:84D1: 44 C9     .word off_02_C944
-- D 0 - I - 0x0184E3 06:84D3: C0 14     .word $14C0 ; ppu
+- D 0 - I - 0x0184E3 06:84D3: C0 14     .word $14C0 ; ppu address
 
 - D 0 - I - 0x0184E5 06:84D5: 00        .byte $00   ; end token
 
 
 
 _off015_84D6_0F:
+; con_8455_0F
 - D 0 - I - 0x0184E6 06:84D6: 87        .byte $87   ; counter
-- D 0 - I - 0x0184E7 06:84D7: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184E7 06:84D7: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184E8 06:84D8: 36 D2     .word off_0F_D236
-- D 0 - I - 0x0184EA 06:84DA: C0 14     .word $14C0 ; ppu
+- D 0 - I - 0x0184EA 06:84DA: C0 14     .word $14C0 ; ppu address
 
 - D 0 - I - 0x0184EC 06:84DC: 00        .byte $00   ; end token
 
 
 
 _off015_84DD_08:
+; con_8455_08
 - D 0 - I - 0x0184ED 06:84DD: 02        .byte $02   ; counter
-- D 0 - I - 0x0184EE 06:84DE: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184EE 06:84DE: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184EF 06:84DF: 83 EA     .word off_08_EA83
-- D 0 - I - 0x0184F1 06:84E1: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x0184F1 06:84E1: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x0184F3 06:84E3: 0B        .byte $0B   ; counter
-- D 0 - I - 0x0184F4 06:84E4: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0184F4 06:84E4: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0184F5 06:84E5: 19 99     .word off_08_9919
-- D 0 - I - 0x0184F7 06:84E7: 20 00     .word $0020 ; ppu
+- D 0 - I - 0x0184F7 06:84E7: 20 00     .word $0020 ; ppu address
 
 - D 0 - I - 0x0184F9 06:84E9: 07        .byte $07   ; counter
-- D 0 - I - 0x0184FA 06:84EA: 06        .byte con_8294_06   ; 
+- D 0 - I - 0x0184FA 06:84EA: 06        .byte con_decomp_06   ; 
 - D 0 - I - 0x0184FB 06:84EB: 6B 9B     .word off_08_9B6B
-- D 0 - I - 0x0184FD 06:84ED: 10 01     .word $0110 ; ppu
+- D 0 - I - 0x0184FD 06:84ED: 10 01     .word $0110 ; ppu address
 
 - D 0 - I - 0x0184FF 06:84EF: 21        .byte $21   ; counter
-- D 0 - I - 0x018500 06:84F0: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018500 06:84F0: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018501 06:84F1: B5 99     .word off_08_99B5
-- D 0 - I - 0x018503 06:84F3: 80 01     .word $0180 ; ppu
+- D 0 - I - 0x018503 06:84F3: 80 01     .word $0180 ; ppu address
 
 - D 0 - I - 0x018505 06:84F5: 07        .byte $07   ; counter
-- D 0 - I - 0x018506 06:84F6: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x018506 06:84F6: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x018507 06:84F7: 6B 9B     .word off_08_9B6B
-- D 0 - I - 0x018509 06:84F9: 90 03     .word $0390 ; ppu
+- D 0 - I - 0x018509 06:84F9: 90 03     .word $0390 ; ppu address
 
 - D 0 - I - 0x01850B 06:84FB: 0A        .byte $0A   ; counter
-- D 0 - I - 0x01850C 06:84FC: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x01850C 06:84FC: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x01850D 06:84FD: DB 9B     .word off_08_9BDB
-- D 0 - I - 0x01850F 06:84FF: 00 04     .word $0400 ; ppu
+- D 0 - I - 0x01850F 06:84FF: 00 04     .word $0400 ; ppu address
 
 - D 0 - I - 0x018511 06:8501: 0A        .byte $0A   ; counter
-- D 0 - I - 0x018512 06:8502: 06        .byte con_8294_06   ; 
+- D 0 - I - 0x018512 06:8502: 06        .byte con_decomp_06   ; 
 - D 0 - I - 0x018513 06:8503: DB 9B     .word off_08_9BDB
-- D 0 - I - 0x018515 06:8505: A0 04     .word $04A0 ; ppu
+- D 0 - I - 0x018515 06:8505: A0 04     .word $04A0 ; ppu address
 
 - D 0 - I - 0x018517 06:8507: 1E        .byte $1E   ; counter
-- D 0 - I - 0x018518 06:8508: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018518 06:8508: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018519 06:8509: 7B 9C     .word off_08_9C7B
-- D 0 - I - 0x01851B 06:850B: 40 05     .word $0540 ; ppu
+- D 0 - I - 0x01851B 06:850B: 40 05     .word $0540 ; ppu address
 
 - D 0 - I - 0x01851D 06:850D: 0E        .byte $0E   ; counter
-- D 0 - I - 0x01851E 06:850E: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x01851E 06:850E: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x01851F 06:850F: 0A 9E     .word off_08_9E0A
-- D 0 - I - 0x018521 06:8511: 20 07     .word $0720 ; ppu
+- D 0 - I - 0x018521 06:8511: 20 07     .word $0720 ; ppu address
 
 - D 0 - I - 0x018523 06:8513: 0D        .byte $0D   ; counter
-- D 0 - I - 0x018524 06:8514: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x018524 06:8514: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x018525 06:8515: 12 9E     .word off_08_9E12
-- D 0 - I - 0x018527 06:8517: 00 08     .word $0800 ; ppu
+- D 0 - I - 0x018527 06:8517: 00 08     .word $0800 ; ppu address
 
 - D 0 - I - 0x018529 06:8519: 53        .byte $53   ; counter
-- D 0 - I - 0x01852A 06:851A: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01852A 06:851A: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01852B 06:851B: A2 9E     .word off_08_9EA2
-- D 0 - I - 0x01852D 06:851D: D0 09     .word $09D0 ; ppu
+- D 0 - I - 0x01852D 06:851D: D0 09     .word $09D0 ; ppu address
 
 - D 0 - I - 0x01852F 06:851F: 05        .byte $05   ; counter
-- D 0 - I - 0x018530 06:8520: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x018530 06:8520: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x018531 06:8521: 7A 9E     .word off_08_9E7A
-- D 0 - I - 0x018533 06:8523: A0 0F     .word $0FA0 ; ppu
+- D 0 - I - 0x018533 06:8523: A0 0F     .word $0FA0 ; ppu address
 
 - D 0 - I - 0x018535 06:8525: 01        .byte $01   ; counter
-- D 0 - I - 0x018536 06:8526: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018536 06:8526: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018537 06:8527: EA 96     .word off_08_96EA
-- D 0 - I - 0x018539 06:8529: F0 0F     .word $0FF0 ; ppu
+- D 0 - I - 0x018539 06:8529: F0 0F     .word $0FF0 ; ppu address
 
 - D 0 - I - 0x01853B 06:852B: 00        .byte $00   ; end token
 
 
 
 _off015_852C_14:
+; con_8455_14
 - D 0 - I - 0x01853C 06:852C: 0C        .byte $0C   ; counter
-- D 0 - I - 0x01853D 06:852D: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x01853D 06:852D: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x01853E 06:852E: 4C A3     .word off_14_A34C
-- D 0 - I - 0x018540 06:8530: D0 08     .word $08D0 ; ppu
+- D 0 - I - 0x018540 06:8530: D0 08     .word $08D0 ; ppu address
 
 - D 0 - I - 0x018542 06:8532: 00        .byte $00   ; end token
 
 
 
 _off015_8533_06:
+; con_8455_06
 _off015_8533_07:
+; con_8455_07
 - D 0 - I - 0x018543 06:8533: B0        .byte $B0   ; counter
-- D 0 - I - 0x018544 06:8534: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018544 06:8534: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018545 06:8535: 84 D9     .word off_06_07_D984
-- D 0 - I - 0x018547 06:8537: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x018547 06:8537: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x018549 06:8539: 0B        .byte $0B   ; counter
-- D 0 - I - 0x01854A 06:853A: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01854A 06:853A: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01854B 06:853B: 65 E2     .word off_06_07_E265
-- D 0 - I - 0x01854D 06:853D: 00 1B     .word $1B00 ; ppu
+- D 0 - I - 0x01854D 06:853D: 00 1B     .word $1B00 ; ppu address
 
 - D 0 - I - 0x01854F 06:853F: 06        .byte $06   ; counter
-- D 0 - I - 0x018550 06:8540: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018550 06:8540: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018551 06:8541: 13 E3     .word off_06_07_E313
-- D 0 - I - 0x018553 06:8543: B0 1B     .word $1BB0 ; ppu
+- D 0 - I - 0x018553 06:8543: B0 1B     .word $1BB0 ; ppu address
 
 - D 0 - I - 0x018555 06:8545: 1A        .byte $1A   ; counter
-- D 0 - I - 0x018556 06:8546: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x018556 06:8546: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x018557 06:8547: 61 E3     .word off_06_07_E361
-- D 0 - I - 0x018559 06:8549: 10 1C     .word $1C10 ; ppu
+- D 0 - I - 0x018559 06:8549: 10 1C     .word $1C10 ; ppu address
 
 - D 0 - I - 0x01855B 06:854B: 16        .byte $16   ; counter
-- D 0 - I - 0x01855C 06:854C: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01855C 06:854C: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01855D 06:854D: 31 E5     .word off_06_07_E531
-- D 0 - I - 0x01855F 06:854F: B0 1D     .word $1DB0 ; ppu
+- D 0 - I - 0x01855F 06:854F: B0 1D     .word $1DB0 ; ppu address
 
 - D 0 - I - 0x018561 06:8551: 0F        .byte $0F   ; counter
-- D 0 - I - 0x018562 06:8552: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018562 06:8552: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018563 06:8553: 45 E6     .word off_06_07_E645
-- D 0 - I - 0x018565 06:8555: 10 1F     .word $1F10 ; ppu
+- D 0 - I - 0x018565 06:8555: 10 1F     .word $1F10 ; ppu address
 
 - D 0 - I - 0x018567 06:8557: 02        .byte $02   ; counter
-- D 0 - I - 0x018568 06:8558: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018568 06:8558: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018569 06:8559: 83 EA     .word off_06_07_EA83
-- D 0 - I - 0x01856B 06:855B: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x01856B 06:855B: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x01856D 06:855D: 01        .byte $01   ; counter
-- D 0 - I - 0x01856E 06:855E: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01856E 06:855E: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01856F 06:855F: 61 E7     .word off_06_07_E761
-- D 0 - I - 0x018571 06:8561: 00 02     .word $0200 ; ppu
+- D 0 - I - 0x018571 06:8561: 00 02     .word $0200 ; ppu address
 
 - D 0 - I - 0x018573 06:8563: 0B        .byte $0B   ; counter
-- D 0 - I - 0x018574 06:8564: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018574 06:8564: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018575 06:8565: 65 E2     .word off_06_07_E265
-- D 0 - I - 0x018577 06:8567: 00 03     .word $0300 ; ppu
+- D 0 - I - 0x018577 06:8567: 00 03     .word $0300 ; ppu address
 
 - D 0 - I - 0x018579 06:8569: 05        .byte $05   ; counter
-- D 0 - I - 0x01857A 06:856A: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x01857A 06:856A: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x01857B 06:856B: 11 E7     .word off_06_07_E711
-- D 0 - I - 0x01857D 06:856D: B0 03     .word $03B0 ; ppu
+- D 0 - I - 0x01857D 06:856D: B0 03     .word $03B0 ; ppu address
 
 - D 0 - I - 0x01857F 06:856F: 1D        .byte $1D   ; counter
-- D 0 - I - 0x018580 06:8570: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x018580 06:8570: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x018581 06:8571: 61 E3     .word off_06_07_E361
-- D 0 - I - 0x018583 06:8573: 10 04     .word $0410 ; ppu
+- D 0 - I - 0x018583 06:8573: 10 04     .word $0410 ; ppu address
 
 - D 0 - I - 0x018585 06:8575: 46        .byte $46   ; counter
-- D 0 - I - 0x018586 06:8576: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018586 06:8576: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x018587 06:8577: 67 E7     .word off_06_07_E767
-- D 0 - I - 0x018589 06:8579: 00 06     .word $0600 ; ppu
+- D 0 - I - 0x018589 06:8579: 00 06     .word $0600 ; ppu address
 
 - D 0 - I - 0x01858B 06:857B: 35        .byte $35   ; counter
-- D 0 - I - 0x01858C 06:857C: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01858C 06:857C: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01858D 06:857D: 0F ED     .word off_06_07_ED0F
-- D 0 - I - 0x01858F 06:857F: 00 0B     .word $0B00 ; ppu
+- D 0 - I - 0x01858F 06:857F: 00 0B     .word $0B00 ; ppu address
 
 - D 0 - I - 0x018591 06:8581: 0F        .byte $0F   ; counter
-- D 0 - I - 0x018592 06:8582: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x018592 06:8582: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x018593 06:8583: A8 EF     .word off_06_07_EFA8
-- D 0 - I - 0x018595 06:8585: 50 0E     .word $0E50 ; ppu
+- D 0 - I - 0x018595 06:8585: 50 0E     .word $0E50 ; ppu address
 
 - D 0 - I - 0x018597 06:8587: 00        .byte $00   ; end token
 
 
 
 _off015_8588_09:
+; con_8455_09
 - D 0 - I - 0x018598 06:8588: 6B        .byte $6B   ; counter
-- D 0 - I - 0x018599 06:8589: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x018599 06:8589: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x01859A 06:858A: 60 AA     .word off_09_AA60
-- D 0 - I - 0x01859C 06:858C: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x01859C 06:858C: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x01859E 06:858E: 34        .byte $34   ; counter
-- D 0 - I - 0x01859F 06:858F: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x01859F 06:858F: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185A0 06:8590: 0F ED     .word off_09_ED0F
-- D 0 - I - 0x0185A2 06:8592: 00 0B     .word $0B00 ; ppu
+- D 0 - I - 0x0185A2 06:8592: 00 0B     .word $0B00 ; ppu address
 
 - D 0 - I - 0x0185A4 06:8594: 03        .byte $03   ; counter
-- D 0 - I - 0x0185A5 06:8595: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185A5 06:8595: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185A6 06:8596: 98 F0     .word off_09_F098
-- D 0 - I - 0x0185A8 06:8598: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x0185A8 06:8598: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x0185AA 06:859A: 79        .byte $79   ; counter
-- D 0 - I - 0x0185AB 06:859B: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185AB 06:859B: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185AC 06:859C: 0C A4     .word off_09_A40C
-- D 0 - I - 0x0185AE 06:859E: 60 14     .word $1460 ; ppu
+- D 0 - I - 0x0185AE 06:859E: 60 14     .word $1460 ; ppu address
 
 - D 0 - I - 0x0185B0 06:85A0: 00        .byte $00   ; end token
 
 
 
 _off015_85A1_0A:
+; con_8455_0A
 - D 0 - I - 0x0185B1 06:85A1: 02        .byte $02   ; counter
-- D 0 - I - 0x0185B2 06:85A2: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185B2 06:85A2: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185B3 06:85A3: 98 F0     .word off_0A_F098
-- D 0 - I - 0x0185B5 06:85A5: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x0185B5 06:85A5: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x0185B7 06:85A7: 26        .byte $26   ; counter
-- D 0 - I - 0x0185B8 06:85A8: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185B8 06:85A8: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185B9 06:85A9: 8E EA     .word off_0A_EA8E
-- D 0 - I - 0x0185BB 06:85AB: 20 17     .word $1720 ; ppu
+- D 0 - I - 0x0185BB 06:85AB: 20 17     .word $1720 ; ppu address
 
 - D 0 - I - 0x0185BD 06:85AD: 0B        .byte $0B   ; counter
-- D 0 - I - 0x0185BE 06:85AE: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185BE 06:85AE: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185BF 06:85AF: 63 EC     .word off_0A_EC63
-- D 0 - I - 0x0185C1 06:85B1: 10 1C     .word $1C10 ; ppu
+- D 0 - I - 0x0185C1 06:85B1: 10 1C     .word $1C10 ; ppu address
 
 - D 0 - I - 0x0185C3 06:85B3: 34        .byte $34   ; counter
-- D 0 - I - 0x0185C4 06:85B4: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185C4 06:85B4: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185C5 06:85B5: 0F ED     .word off_0A_ED0F
-- D 0 - I - 0x0185C7 06:85B7: C0 1C     .word $1CC0 ; ppu
+- D 0 - I - 0x0185C7 06:85B7: C0 1C     .word $1CC0 ; ppu address
 
 - D 0 - I - 0x0185C9 06:85B9: 02        .byte $02   ; counter
-- D 0 - I - 0x0185CA 06:85BA: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185CA 06:85BA: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185CB 06:85BB: 98 F0     .word off_0A_F098
-- D 0 - I - 0x0185CD 06:85BD: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x0185CD 06:85BD: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x0185CF 06:85BF: 77        .byte $77   ; counter
-- D 0 - I - 0x0185D0 06:85C0: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0185D0 06:85C0: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0185D1 06:85C1: A4 F0     .word off_0A_F0A4
-- D 0 - I - 0x0185D3 06:85C3: 20 08     .word $0820 ; ppu
+- D 0 - I - 0x0185D3 06:85C3: 20 08     .word $0820 ; ppu address
 
 - D 0 - I - 0x0185D5 06:85C5: 00        .byte $00   ; end token
 
 
 
 _off015_85C6_15:
+; con_8455_15
 - D 0 - I - 0x0185D6 06:85C6: 02        .byte $02   ; counter
-- D 0 - I - 0x0185D7 06:85C7: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185D7 06:85C7: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185D8 06:85C8: 62 F7     .word off_15_F762
-- D 0 - I - 0x0185DA 06:85CA: 20 0A     .word $0A20 ; ppu
+- D 0 - I - 0x0185DA 06:85CA: 20 0A     .word $0A20 ; ppu address
 
 - D 0 - I - 0x0185DC 06:85CC: 02        .byte $02   ; counter
-- D 0 - I - 0x0185DD 06:85CD: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185DD 06:85CD: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185DE 06:85CE: 82 F7     .word off_15_F782
-- D 0 - I - 0x0185E0 06:85D0: C0 0B     .word $0BC0 ; ppu
+- D 0 - I - 0x0185E0 06:85D0: C0 0B     .word $0BC0 ; ppu address
 
 - D 0 - I - 0x0185E2 06:85D2: 02        .byte $02   ; counter
-- D 0 - I - 0x0185E3 06:85D3: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185E3 06:85D3: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185E4 06:85D4: A2 F7     .word off_15_F7A2
-- D 0 - I - 0x0185E6 06:85D6: 00 0C     .word $0C00 ; ppu
+- D 0 - I - 0x0185E6 06:85D6: 00 0C     .word $0C00 ; ppu address
 
 - D 0 - I - 0x0185E8 06:85D8: 02        .byte $02   ; counter
-- D 0 - I - 0x0185E9 06:85D9: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185E9 06:85D9: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185EA 06:85DA: C2 F7     .word off_15_F7C2
-- D 0 - I - 0x0185EC 06:85DC: D0 0C     .word $0CD0 ; ppu
+- D 0 - I - 0x0185EC 06:85DC: D0 0C     .word $0CD0 ; ppu address
 
 - D 0 - I - 0x0185EE 06:85DE: 02        .byte $02   ; counter
-- D 0 - I - 0x0185EF 06:85DF: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185EF 06:85DF: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185F0 06:85E0: E2 F7     .word off_15_F7E2
-- D 0 - I - 0x0185F2 06:85E2: F0 0C     .word $0CF0 ; ppu
+- D 0 - I - 0x0185F2 06:85E2: F0 0C     .word $0CF0 ; ppu address
 
 - D 0 - I - 0x0185F4 06:85E4: 02        .byte $02   ; counter
-- D 0 - I - 0x0185F5 06:85E5: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185F5 06:85E5: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185F6 06:85E6: 02 F8     .word off_15_F802
-- D 0 - I - 0x0185F8 06:85E8: D0 0A     .word $0AD0 ; ppu
+- D 0 - I - 0x0185F8 06:85E8: D0 0A     .word $0AD0 ; ppu address
 
 - D 0 - I - 0x0185FA 06:85EA: 01        .byte $01   ; counter
-- D 0 - I - 0x0185FB 06:85EB: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x0185FB 06:85EB: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x0185FC 06:85EC: 22 F8     .word off_15_F822
-- D 0 - I - 0x0185FE 06:85EE: 30 0B     .word $0B30 ; ppu
+- D 0 - I - 0x0185FE 06:85EE: 30 0B     .word $0B30 ; ppu address
 
 - D 0 - I - 0x018600 06:85F0: 00        .byte $00   ; end token
 
 
 
 _off015_85F1_0B:
+; con_8455_0B
 - D 0 - I - 0x018601 06:85F1: 01        .byte $01   ; counter
-- D 0 - I - 0x018602 06:85F2: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018602 06:85F2: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018603 06:85F3: EA 96     .word off_0B_96EA
-- D 0 - I - 0x018605 06:85F5: 00 02     .word $0200 ; ppu
+- D 0 - I - 0x018605 06:85F5: 00 02     .word $0200 ; ppu address
 
 - D 0 - I - 0x018607 06:85F7: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018608 06:85F8: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018608 06:85F8: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018609 06:85F9: 12 96     .word off_0B_9612
-- D 0 - I - 0x01860B 06:85FB: 00 04     .word $0400 ; ppu
+- D 0 - I - 0x01860B 06:85FB: 00 04     .word $0400 ; ppu address
 
 - D 0 - I - 0x01860D 06:85FD: 01        .byte $01   ; counter
-- D 0 - I - 0x01860E 06:85FE: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x01860E 06:85FE: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x01860F 06:85FF: EA 96     .word off_0B_96EA
-- D 0 - I - 0x018611 06:8601: 00 0A     .word $0A00 ; ppu
+- D 0 - I - 0x018611 06:8601: 00 0A     .word $0A00 ; ppu address
 
 - D 0 - I - 0x018613 06:8603: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018614 06:8604: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x018614 06:8604: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x018615 06:8605: 12 96     .word off_0B_9612
-- D 0 - I - 0x018617 06:8607: 00 0C     .word $0C00 ; ppu
+- D 0 - I - 0x018617 06:8607: 00 0C     .word $0C00 ; ppu address
 
 - D 0 - I - 0x018619 06:8609: 00        .byte $00   ; end token
 
 
 
 _off015_860A_0C:
+; con_8455_0C
 - D 0 - I - 0x01861A 06:860A: 01        .byte $01   ; counter
-- D 0 - I - 0x01861B 06:860B: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x01861B 06:860B: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x01861C 06:860C: EA 96     .word off_0C_96EA
-- D 0 - I - 0x01861E 06:860E: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x01861E 06:860E: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x018620 06:8610: 01        .byte $01   ; counter
-- D 0 - I - 0x018621 06:8611: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018621 06:8611: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018622 06:8612: EA 96     .word off_0C_96EA
-- D 0 - I - 0x018624 06:8614: 00 02     .word $0200 ; ppu
+- D 0 - I - 0x018624 06:8614: 00 02     .word $0200 ; ppu address
 
 - D 0 - I - 0x018626 06:8616: 03        .byte $03   ; counter
-- D 0 - I - 0x018627 06:8617: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018627 06:8617: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018628 06:8618: F2 96     .word off_0C_96F2
-- D 0 - I - 0x01862A 06:861A: C0 02     .word $02C0 ; ppu
+- D 0 - I - 0x01862A 06:861A: C0 02     .word $02C0 ; ppu address
 
 - D 0 - I - 0x01862C 06:861C: 0A        .byte $0A   ; counter
-- D 0 - I - 0x01862D 06:861D: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x01862D 06:861D: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x01862E 06:861E: 12 97     .word off_0C_9712
-- D 0 - I - 0x018630 06:8620: 00 03     .word $0300 ; ppu
+- D 0 - I - 0x018630 06:8620: 00 03     .word $0300 ; ppu address
 
 - D 0 - I - 0x018632 06:8622: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018633 06:8623: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018633 06:8623: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018634 06:8624: 12 96     .word off_0C_9612
-- D 0 - I - 0x018636 06:8626: 00 04     .word $0400 ; ppu
+- D 0 - I - 0x018636 06:8626: 00 04     .word $0400 ; ppu address
 
 - D 0 - I - 0x018638 06:8628: 05        .byte $05   ; counter
-- D 0 - I - 0x018639 06:8629: 00        .byte con_8294_00   ; 
+- D 0 - I - 0x018639 06:8629: 00        .byte con_decomp_00   ; 
 - D 0 - I - 0x01863A 06:862A: 16 AF     .word off_0C_AF16
-- D 0 - I - 0x01863C 06:862C: 40 18     .word $1840 ; ppu
+- D 0 - I - 0x01863C 06:862C: 40 18     .word $1840 ; ppu address
 
 - D 0 - I - 0x01863E 06:862E: 00        .byte $00   ; end token
 
 
 
 _off015_862F_0D:
+; con_8455_0D
 - D 0 - I - 0x01863F 06:862F: 01        .byte $01   ; counter
-- D 0 - I - 0x018640 06:8630: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018640 06:8630: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018641 06:8631: EA 96     .word off_0D_96EA
-- D 0 - I - 0x018643 06:8633: 00 10     .word $1000 ; ppu
+- D 0 - I - 0x018643 06:8633: 00 10     .word $1000 ; ppu address
 
 - D 0 - I - 0x018645 06:8635: 01        .byte $01   ; counter
-- D 0 - I - 0x018646 06:8636: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018646 06:8636: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018647 06:8637: EA 96     .word off_0D_96EA
-- D 0 - I - 0x018649 06:8639: 00 12     .word $1200 ; ppu
+- D 0 - I - 0x018649 06:8639: 00 12     .word $1200 ; ppu address
 
 - D 0 - I - 0x01864B 06:863B: 03        .byte $03   ; counter
-- D 0 - I - 0x01864C 06:863C: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x01864C 06:863C: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x01864D 06:863D: F2 96     .word off_0D_96F2
-- D 0 - I - 0x01864F 06:863F: C0 12     .word $12C0 ; ppu
+- D 0 - I - 0x01864F 06:863F: C0 12     .word $12C0 ; ppu address
 
 - D 0 - I - 0x018651 06:8641: 0A        .byte $0A   ; counter
-- D 0 - I - 0x018652 06:8642: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018652 06:8642: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018653 06:8643: 12 97     .word off_0D_9712
-- D 0 - I - 0x018655 06:8645: 00 13     .word $1300 ; ppu
+- D 0 - I - 0x018655 06:8645: 00 13     .word $1300 ; ppu address
 
 - D 0 - I - 0x018657 06:8647: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018658 06:8648: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x018658 06:8648: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x018659 06:8649: 12 96     .word off_0D_9612
-- D 0 - I - 0x01865B 06:864B: 00 14     .word $1400 ; ppu
+- D 0 - I - 0x01865B 06:864B: 00 14     .word $1400 ; ppu address
 
 - D 0 - I - 0x01865D 06:864D: 04        .byte $04   ; counter
-- D 0 - I - 0x01865E 06:864E: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x01865E 06:864E: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x01865F 06:864F: 8A 97     .word off_0D_978A
-- D 0 - I - 0x018661 06:8651: 10 12     .word $1210 ; ppu
+- D 0 - I - 0x018661 06:8651: 10 12     .word $1210 ; ppu address
 
 - D 0 - I - 0x018663 06:8653: 01        .byte $01   ; counter
-- D 0 - I - 0x018664 06:8654: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x018664 06:8654: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x018665 06:8655: EA 96     .word off_0D_96EA
-- D 0 - I - 0x018667 06:8657: 00 1A     .word $1A00 ; ppu
+- D 0 - I - 0x018667 06:8657: 00 1A     .word $1A00 ; ppu address
 
 - D 0 - I - 0x018669 06:8659: 03        .byte $03   ; counter
-- D 0 - I - 0x01866A 06:865A: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x01866A 06:865A: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x01866B 06:865B: F2 96     .word off_0D_96F2
-- D 0 - I - 0x01866D 06:865D: C0 1A     .word $1AC0 ; ppu
+- D 0 - I - 0x01866D 06:865D: C0 1A     .word $1AC0 ; ppu address
 
 - D 0 - I - 0x01866F 06:865F: 0A        .byte $0A   ; counter
-- D 0 - I - 0x018670 06:8660: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x018670 06:8660: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x018671 06:8661: 12 97     .word off_0D_9712
-- D 0 - I - 0x018673 06:8663: 00 1B     .word $1B00 ; ppu
+- D 0 - I - 0x018673 06:8663: 00 1B     .word $1B00 ; ppu address
 
 - D 0 - I - 0x018675 06:8665: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018676 06:8666: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x018676 06:8666: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x018677 06:8667: 12 96     .word off_0D_9612
-- D 0 - I - 0x018679 06:8669: 00 1C     .word $1C00 ; ppu
+- D 0 - I - 0x018679 06:8669: 00 1C     .word $1C00 ; ppu address
 
 - D 0 - I - 0x01867B 06:866B: 04        .byte $04   ; counter
-- D 0 - I - 0x01867C 06:866C: 08        .byte con_8294_08   ; 
+- D 0 - I - 0x01867C 06:866C: 08        .byte con_decomp_08   ; 
 - D 0 - I - 0x01867D 06:866D: 8A 97     .word off_0D_978A
-- D 0 - I - 0x01867F 06:866F: 10 1A     .word $1A10 ; ppu
+- D 0 - I - 0x01867F 06:866F: 10 1A     .word $1A10 ; ppu address
 
 - D 0 - I - 0x018681 06:8671: 01        .byte $01   ; counter
-- D 0 - I - 0x018682 06:8672: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x018682 06:8672: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x018683 06:8673: EA 96     .word off_0D_96EA
-- D 0 - I - 0x018685 06:8675: 00 16     .word $1600 ; ppu
+- D 0 - I - 0x018685 06:8675: 00 16     .word $1600 ; ppu address
 
 - D 0 - I - 0x018687 06:8677: 03        .byte $03   ; counter
-- D 0 - I - 0x018688 06:8678: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x018688 06:8678: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x018689 06:8679: F2 96     .word off_0D_96F2
-- D 0 - I - 0x01868B 06:867B: C0 16     .word $16C0 ; ppu
+- D 0 - I - 0x01868B 06:867B: C0 16     .word $16C0 ; ppu address
 
 - D 0 - I - 0x01868D 06:867D: 0A        .byte $0A   ; counter
-- D 0 - I - 0x01868E 06:867E: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x01868E 06:867E: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x01868F 06:867F: 12 97     .word off_0D_9712
-- D 0 - I - 0x018691 06:8681: 00 17     .word $1700 ; ppu
+- D 0 - I - 0x018691 06:8681: 00 17     .word $1700 ; ppu address
 
 - D 0 - I - 0x018693 06:8683: 1C        .byte $1C   ; counter
-- D 0 - I - 0x018694 06:8684: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x018694 06:8684: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x018695 06:8685: 12 96     .word off_0D_9612
-- D 0 - I - 0x018697 06:8687: 00 18     .word $1800 ; ppu
+- D 0 - I - 0x018697 06:8687: 00 18     .word $1800 ; ppu address
 
 - D 0 - I - 0x018699 06:8689: 04        .byte $04   ; counter
-- D 0 - I - 0x01869A 06:868A: 0A        .byte con_8294_0A   ; 
+- D 0 - I - 0x01869A 06:868A: 0A        .byte con_decomp_0A   ; 
 - D 0 - I - 0x01869B 06:868B: 8A 97     .word off_0D_978A
-- D 0 - I - 0x01869D 06:868D: 10 16     .word $1610 ; ppu
+- D 0 - I - 0x01869D 06:868D: 10 16     .word $1610 ; ppu address
 
 ; bzk bug, counter should be lower, otherwise it keeps
 ; reading garbage data, see 0x01FB16 and 0x01FB3C
 - D 0 - I - 0x01869F 06:868F: 36        .byte $36   ; counter       
-- D 0 - I - 0x0186A0 06:8690: 02        .byte con_8294_02   ; 
+- D 0 - I - 0x0186A0 06:8690: 02        .byte con_decomp_02   ; 
 - D 0 - I - 0x0186A1 06:8691: 32 F8     .word off_0D_F832
-- D 0 - I - 0x0186A3 06:8693: 00 00     .word $0000 ; ppu
+- D 0 - I - 0x0186A3 06:8693: 00 00     .word $0000 ; ppu address
 
 - D 0 - I - 0x0186A5 06:8695: 00        .byte $00   ; end token
 
 
 
 _off015_8696_10:
+; con_8455_10
 - D 0 - I - 0x0186A6 06:8696: 01        .byte $01   ; counter
-- D 0 - I - 0x0186A7 06:8697: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186A7 06:8697: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186A8 06:8698: EA 96     .word off_10_96EA
-- D 0 - I - 0x0186AA 06:869A: 00 1A     .word $1A00 ; ppu
+- D 0 - I - 0x0186AA 06:869A: 00 1A     .word $1A00 ; ppu address
 
 - D 0 - I - 0x0186AC 06:869C: 03        .byte $03   ; counter
-- D 0 - I - 0x0186AD 06:869D: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186AD 06:869D: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186AE 06:869E: F2 96     .word off_10_96F2
-- D 0 - I - 0x0186B0 06:86A0: C0 1A     .word $1AC0 ; ppu
+- D 0 - I - 0x0186B0 06:86A0: C0 1A     .word $1AC0 ; ppu address
 
 - D 0 - I - 0x0186B2 06:86A2: 0D        .byte $0D   ; counter
-- D 0 - I - 0x0186B3 06:86A3: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186B3 06:86A3: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186B4 06:86A4: 12 97     .word off_10_9712
-- D 0 - I - 0x0186B6 06:86A6: 00 1B     .word $1B00 ; ppu
+- D 0 - I - 0x0186B6 06:86A6: 00 1B     .word $1B00 ; ppu address
 
 - D 0 - I - 0x0186B8 06:86A8: 1C        .byte $1C   ; counter
-- D 0 - I - 0x0186B9 06:86A9: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186B9 06:86A9: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186BA 06:86AA: 12 96     .word off_10_9612
-- D 0 - I - 0x0186BC 06:86AC: 00 1C     .word $1C00 ; ppu
+- D 0 - I - 0x0186BC 06:86AC: 00 1C     .word $1C00 ; ppu address
 
 - D 0 - I - 0x0186BE 06:86AE: 01        .byte $01   ; counter
-- D 0 - I - 0x0186BF 06:86AF: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186BF 06:86AF: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186C0 06:86B0: EA 96     .word off_10_96EA
-- D 0 - I - 0x0186C2 06:86B2: 00 0A     .word $0A00 ; ppu
+- D 0 - I - 0x0186C2 06:86B2: 00 0A     .word $0A00 ; ppu address
 
 - D 0 - I - 0x0186C4 06:86B4: 03        .byte $03   ; counter
-- D 0 - I - 0x0186C5 06:86B5: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186C5 06:86B5: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186C6 06:86B6: F2 96     .word off_10_96F2
-- D 0 - I - 0x0186C8 06:86B8: C0 0A     .word $0AC0 ; ppu
+- D 0 - I - 0x0186C8 06:86B8: C0 0A     .word $0AC0 ; ppu address
 
 - D 0 - I - 0x0186CA 06:86BA: 0D        .byte $0D   ; counter
-- D 0 - I - 0x0186CB 06:86BB: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186CB 06:86BB: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186CC 06:86BC: 12 97     .word off_10_9712
-- D 0 - I - 0x0186CE 06:86BE: 00 0B     .word $0B00 ; ppu
+- D 0 - I - 0x0186CE 06:86BE: 00 0B     .word $0B00 ; ppu address
 
 - D 0 - I - 0x0186D0 06:86C0: 1C        .byte $1C   ; counter
-- D 0 - I - 0x0186D1 06:86C1: 04        .byte con_8294_04   ; 
+- D 0 - I - 0x0186D1 06:86C1: 04        .byte con_decomp_04   ; 
 - D 0 - I - 0x0186D2 06:86C2: 12 96     .word off_10_9612
-- D 0 - I - 0x0186D4 06:86C4: 00 0C     .word $0C00 ; ppu
+- D 0 - I - 0x0186D4 06:86C4: 00 0C     .word $0C00 ; ppu address
 
 - D 0 - I - 0x0186D6 06:86C6: 00        .byte $00   ; end token
 
 
 
 _off015_86C7_11:
+; con_8455_11
 - D 0 - I - 0x0186D7 06:86C7: 0C        .byte $0C   ; counter
-- D 0 - I - 0x0186D8 06:86C8: 0E        .byte con_8294_0E   ; 
+- D 0 - I - 0x0186D8 06:86C8: 0E        .byte con_decomp_0E   ; 
 - D 0 - I - 0x0186D9 06:86C9: 12 96     .word off_11_9612
-- D 0 - I - 0x0186DB 06:86CB: 10 15     .word $1510 ; ppu
+- D 0 - I - 0x0186DB 06:86CB: 10 15     .word $1510 ; ppu address
 
 ; DANNY'S TIPS
 - D 0 - I - 0x0186DD 06:86CD: 44        .byte $44, $41, $4E, $4E, $59, $5F, $53, $54, $49, $50, $53, $6A   ; 
@@ -1395,10 +1417,11 @@ _off015_86C7_11:
 
 
 _off015_86DA_12:
+; con_8455_12
 - D 0 - I - 0x0186EA 06:86DA: 13        .byte $13   ; counter
-- D 0 - I - 0x0186EB 06:86DB: 0E        .byte con_8294_0E   ; 
+- D 0 - I - 0x0186EB 06:86DB: 0E        .byte con_decomp_0E   ; 
 - D 0 - I - 0x0186EC 06:86DC: 12 96     .word off_12_9612
-- D 0 - I - 0x0186EE 06:86DE: 10 15     .word $1510 ; ppu
+- D 0 - I - 0x0186EE 06:86DE: 10 15     .word $1510 ; ppu address
 
 ; DANNY'S AWEOME WINS
 - D 0 - I - 0x0186F0 06:86E0: 44        .byte $44, $41, $4E, $4E, $59, $5F, $53, $41, $57, $45, $53, $4F, $4D, $45, $57, $49, $4E, $53, $6A   ; 
@@ -1410,10 +1433,11 @@ _off015_86DA_12:
 
 
 _off015_86F4_13:
+; con_8455_13
 - - - - - - 0x018704 06:86F4: 0B        .byte $0B   ; counter
-- - - - - - 0x018705 06:86F5: 0E        .byte con_8294_0E   ; 
+- - - - - - 0x018705 06:86F5: 0E        .byte con_decomp_0E   ; 
 - - - - - - 0x018706 06:86F6: 12 96     .word off_13_9612
-- - - - - - 0x018708 06:86F8: 10 15     .word $1510 ; ppu
+- - - - - - 0x018708 06:86F8: 10 15     .word $1510 ; ppu address
 
 ; DESIGN TEAM
 - - - - - - 0x01870A 06:86FA: 44        .byte $44, $45, $53, $49, $47, $4E, $54, $45, $41, $4D, $6A   ; 
@@ -1474,7 +1498,6 @@ off_04_8706:
 - D 0 - I - 0x018869 06:8859: AA        .byte $AA   ; 
 
 - D 0 - I - 0x01886A 06:885A: 43        .byte $43, $06   ; control byte for FF + counter
-
 
 - D 0 - I - 0x01886C 06:885C: 3D        .byte $3D, $10   ; control byte for 00 + counter
 
@@ -1559,7 +1582,6 @@ off_04_8706:
 - D 0 - I - 0x018A46 06:8A36: FE        .byte $FE, $FC, $F0   ; 
 
 - D 0 - I - 0x018A49 06:8A39: 3D        .byte $3D, $02   ; control byte for 00 + counter
-
 
 - D 0 - I - 0x018A4B 06:8A3B: 43        .byte $43, $03   ; control byte for FF + counter
 
@@ -2270,16 +2292,13 @@ off_04_8706:
 
 - D 0 - I - 0x0192B9 06:92A9: 43        .byte $43, $04   ; control byte for FF + counter
 
-
 - D 0 - I - 0x0192BB 06:92AB: 3D        .byte $3D, $08   ; control byte for 00 + counter
 
 - D 0 - I - 0x0192BD 06:92AD: 03        .byte $03, $1F   ; 
 
 - D 0 - I - 0x0192BF 06:92AF: 43        .byte $43, $06   ; control byte for FF + counter
 
-
 - D 0 - I - 0x0192C1 06:92B1: 3D        .byte $3D, $08   ; control byte for 00 + counter
-
 
 - D 0 - I - 0x0192C3 06:92B3: 43        .byte $43, $06   ; control byte for FF + counter
 
@@ -5370,7 +5389,6 @@ off_00_B33D:
 
 - D 1 - I - 0x01B4AC 06:B49C: 5B        .byte $5B, $03   ; control byte for FF + counter
 
-
 - D 1 - I - 0x01B4AE 06:B49E: 4C        .byte $4C, $03   ; control byte for 00 + counter
 
 - D 1 - I - 0x01B4B0 06:B4A0: 01        .byte $01, $00, $02, $00, $04, $00, $08   ; 
@@ -5480,13 +5498,11 @@ off_00_B33D:
 
 - D 1 - I - 0x01B5AB 06:B59B: 4C        .byte $4C, $05   ; control byte for 00 + counter
 
-
 - D 1 - I - 0x01B5AD 06:B59D: 5B        .byte $5B, $02   ; control byte for FF + counter
 
 - D 1 - I - 0x01B5AF 06:B59F: 00        .byte $00   ; 
 
 - D 1 - I - 0x01B5B0 06:B5A0: 5B        .byte $5B, $05   ; control byte for FF + counter
-
 
 - D 1 - I - 0x01B5B2 06:B5A2: 4C        .byte $4C, $09   ; control byte for 00 + counter
 
@@ -5530,9 +5546,7 @@ off_00_B33D:
 
 - D 1 - I - 0x01B634 06:B624: 4C        .byte $4C, $07   ; control byte for 00 + counter
 
-
 - D 1 - I - 0x01B636 06:B626: 5B        .byte $5B, $08   ; control byte for FF + counter
-
 
 - D 1 - I - 0x01B638 06:B628: 4C        .byte $4C, $02   ; control byte for 00 + counter
 
@@ -5549,7 +5563,6 @@ off_00_B33D:
 - D 1 - I - 0x01B66F 06:B65F: FC        .byte $FC, $FC, $F8, $FA   ; 
 
 - D 1 - I - 0x01B673 06:B663: 5B        .byte $5B, $06   ; control byte for FF + counter
-
 
 - D 1 - I - 0x01B675 06:B665: 4C        .byte $4C, $04   ; control byte for 00 + counter
 
@@ -5788,7 +5801,6 @@ off_00_B33D:
 
 - D 1 - I - 0x01BC09 06:BBF9: 4C        .byte $4C, $04   ; control byte for 00 + counter
 
-
 - D 1 - I - 0x01BC0B 06:BBFB: 5B        .byte $5B, $02   ; control byte for FF + counter
 
 - D 1 - I - 0x01BC0D 06:BBFD: 82        .byte $82, $82, $84, $FC, $F8, $08   ; 
@@ -5952,7 +5964,6 @@ off_01_BCB8:
 - D 1 - I - 0x01BE32 06:BE22: 40        .byte $40, $00, $03, $0C, $34, $EA, $55, $AA, $3F, $FF, $FC, $F0, $C0   ; 
 
 - D 1 - I - 0x01BE3F 06:BE2F: 25        .byte $25, $03   ; control byte for 00 + counter
-
 
 - D 1 - I - 0x01BE41 06:BE31: 26        .byte $26, $02   ; control byte for FF + counter
 
@@ -9421,7 +9432,6 @@ off_06_07_E767:
 
 - D 3 - I - 0x01E91F 07:E90F: 05        .byte $05, $07   ; control byte for 00 + counter
 
-
 - D 3 - I - 0x01E921 07:E911: 06        .byte $06, $0B   ; control byte for FF + counter
 
 - D 3 - I - 0x01E923 07:E913: 00        .byte $00   ; 
@@ -9595,7 +9605,6 @@ off_06_07_E767:
 - D 3 - I - 0x01EA5A 07:EA4A: FC        .byte $FC, $FE   ; 
 
 - D 3 - I - 0x01EA5C 07:EA4C: 06        .byte $06, $02   ; control byte for FF + counter
-
 
 - D 3 - I - 0x01EA5E 07:EA4E: 05        .byte $05, $08   ; control byte for 00 + counter
 
@@ -10742,7 +10751,7 @@ C D 3 - I - 0x01FB22 07:FB12: 85 0A     STA ram_copy_prg_bank_pointer
 C D 3 - I - 0x01FB24 07:FB14: A2 02     LDX #con_prg_bank_jsr + $02
 C D 3 - I - 0x01FB26 07:FB16: A0 03     LDY #con_prg_bank_rts + $03
 C D 3 - I - 0x01FB28 07:FB18: A9 03     LDA #con_bsw_02_03
-C D 3 - I - 0x01FB2A 07:FB1A: 20 D2 FF  JSR sub_FFD2_prg_bankswitch
+C D 3 - I - 0x01FB2A 07:FB1A: 20 D2 FF  JSR sub_inc_FFD2_prg_bankswitch
 C D 3 - I - 0x01FB2D 07:FB1D: A5 0A     LDA ram_copy_prg_bank_pointer
 C D 3 - I - 0x01FB2F 07:FB1F: 85 08     STA ram_prg_bank_pointer
 C D 3 - I - 0x01FB31 07:FB21: A5 07     LDA ram_copy_prg_bank_rts
@@ -10750,7 +10759,6 @@ C D 3 - I - 0x01FB33 07:FB23: 85 06     STA ram_prg_bank_rts
 C D 3 - I - 0x01FB35 07:FB25: A5 02     LDA ram_0002_t01_save_A
 C D 3 - I - 0x01FB37 07:FB27: A6 03     LDX ram_0003_t01_save_X
 C D 3 - I - 0x01FB39 07:FB29: A4 04     LDY ram_0004_t01_save_Y
-vec_FB2B_IRQ:
 C D 3 - I - 0x01FB3B 07:FB2B: 40        RTI
 
 
@@ -10840,53 +10848,22 @@ C D 3 - I - 0x01FB3B 07:FB2B: 40        RTI
 
 
 
-.out .sprintf("Free bytes in bank 00: 0x%04X [%d]", ($FFD0 - *), ($FFD0 - *))
+.out .sprintf("Free bytes in bank FF: 0x%04X [%d]", ($FFD0 - *), ($FFD0 - *))
 
 
 
 
-.segment "BSW_FF"   ; !!! bzk bankswitch must be at the same address in all banks and contain the same code
-.org $FFD0
-- - - - - - 0x01FFE0 07:FFD0: 86 0B     STX ram_prg_bank_jsr
-sub_FFD2_prg_bankswitch:
-C - - - - - 0x01FFE2 07:FFD2: 85 08     STA ram_prg_bank_pointer
-C - - - - - 0x01FFE4 07:FFD4: 84 06     STY ram_prg_bank_rts
-C - - - - - 0x01FFE6 07:FFD6: BD E8 FF  LDA tbl_FFE8,X
-C - - - - - 0x01FFE9 07:FFD9: 9D E8 FF  STA tbl_FFE8,X
-C - - - - - 0x01FFEC 07:FFDC: 20 00 80  JSR sub_8000_indirect_jump_0008
-C - - - - - 0x01FFEF 07:FFDF: A6 06     LDX ram_prg_bank_rts
-C - - - - - 0x01FFF1 07:FFE1: BD E8 FF  LDA tbl_FFE8,X
-C - - - - - 0x01FFF4 07:FFE4: 9D E8 FF  STA tbl_FFE8,X
-C - - - - - 0x01FFF7 07:FFE7: 60        RTS
-
-
-
-tbl_FFE8:
-- - - - - - 0x01FFF8 07:FFE8: 00        .byte $00, $01, $02, $03   ; 
-
-
-; bzk garbage
-- - - - - - 0x01FFFC 07:FFEC: 10        .byte $10, $11, $12, $13   ; 
-
-
-
-vec_FFF0_RESET:
-loc_FFF0_infinite_loop:
-- - - - - - 0x020000 07:FFF0: 78        SEI
-- - - - - - 0x020001 07:FFF1: A9 00     LDA #$00
-- - - - - - 0x020003 07:FFF3: 8D E8 FF  STA tbl_FFE8
-- - - - - - 0x020006 07:FFF6: 4C F0 FF  JMP loc_FFF0_infinite_loop
-
-
-; bzk garbage
-- - - - - - 0x020009 07:FFF9: FF        .byte $FF   ; 
+.segment "BSW_FF"
+.org $FFD0 ; for listing file, but also necessary (must be the same address as in cfg file)
+con_include_bank = $FF ; for conditions inside included bank
+.include "copy_bank___FFD0_FFF9.asm"
 
 
 
 .segment "VECTORS_FF"
 - D 3 - - - 0x02000A 07:FFFA: 06 FB     .word vec_FB06_NMI
-- - - - - - 0x02000C 07:FFFC: F0 FF     .word vec_FFF0_RESET
-- - - - - - 0x02000E 07:FFFE: 2B FB     .word vec_FB2B_IRQ
+- - - - - - 0x02000C 07:FFFC: F0 FF     .word vec_inc_FFF0_RESET
+- - - - - - 0x02000E 07:FFFE: 2B FB     .word $FB2B ; this game doesn't use IRQ
 
 
 

@@ -3,6 +3,7 @@
 -- files (their names will start with "copy_") and
 -- assemble them instead of original ones.
 local files_list = {
+    "bank___FFD0_FFF9.asm",
     "bank_00.asm",
     "bank_01.asm",
     "bank_02.asm",
