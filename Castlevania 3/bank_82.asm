@@ -5616,6 +5616,8 @@ off_9FC6_41:
 
 
 sub_9FCB_set_vertical_nametable_mapping:
+; out
+    ; A = 44
 C - - - - - 0x005FDB 01:9FCB: A9 44     LDA #$44
 C - - - - - 0x005FDD 01:9FCD: 8D 05 51  STA $5105
 C - - - - - 0x005FE0 01:9FD0: 60        RTS
@@ -5799,6 +5801,7 @@ ofs_irq_handler_A0EF_02:
 ; con_irq_02
 C - - J - - 0x0060FF 01:A0EF: 20 97 A0  JSR sub_A097
 C - - - - - 0x006102 01:A0F2: 20 CB 9F  JSR sub_9FCB_set_vertical_nametable_mapping
+; A = 44
 ; bzk optimize, are these 2 STA's necessary?
 C - - - - - 0x006105 01:A0F5: 8D 05 51  STA $5105
 C - - - - - 0x006108 01:A0F8: 8D 05 51  STA $5105
@@ -5880,6 +5883,7 @@ ofs_irq_handler_A16A_2D:
 ; con_irq_2D
 C - - J - - 0x00617A 01:A16A: 20 97 A0  JSR sub_A097
 C - - - - - 0x00617D 01:A16D: 20 CB 9F  JSR sub_9FCB_set_vertical_nametable_mapping
+; A = 44
 ; bzk optimize, are these 2 STA's necessary?
 C - - - - - 0x006180 01:A170: 8D 05 51  STA $5105
 C - - - - - 0x006183 01:A173: 8D 05 51  STA $5105
@@ -6050,7 +6054,7 @@ C - - - - - 0x006299 01:A289: D0 09     BNE bra_A294
 C - - - - - 0x00629B 01:A28B: AD 19 06  LDA ram_wpn_config + con_obj_index_weapon
 C - - - - - 0x00629E 01:A28E: 38        SEC
 C - - - - - 0x00629F 01:A28F: ED 30 06  SBC ram_061D_wpn_damage + con_obj_index_weapon
-C - - - - - 0x0062A2 01:A292: 85 42     STA ram_0042
+C - - - - - 0x0062A2 01:A292: 85 42     STA ram_0042_scanline
 bra_A294:
 C - - - - - 0x0062A4 01:A294: AD 30 06  LDA ram_061D_wpn_damage + con_obj_index_weapon
 C - - - - - 0x0062A7 01:A297: 49 01     EOR #$01
@@ -10040,10 +10044,10 @@ tbl_B937:
 
 loc_B940_arrange_password_symbols:
 C D 1 - - - 0x007950 01:B940: A9 00     LDA #$00
-C - - - - - 0x007952 01:B942: 85 00     STA ram_0000_t076
+C - - - - - 0x007952 01:B942: 85 00     STA ram_0000_t076_psw_buffer_index
 C - - - - - 0x007954 01:B944: A2 05     LDX #$05
 bra_B946_loop:
-C - - - - - 0x007956 01:B946: A4 00     LDY ram_0000_t076
+C - - - - - 0x007956 01:B946: A4 00     LDY ram_0000_t076_psw_buffer_index
 C - - - - - 0x007958 01:B948: B9 A0 07  LDA ram_psw_buffer,Y
 C - - - - - 0x00795B 01:B94B: 29 03     AND #$03
 C - - - - - 0x00795D 01:B94D: A8        TAY
@@ -10051,7 +10055,7 @@ C - - - - - 0x00795E 01:B94E: B9 82 B9  LDA tbl_B982,Y
 C - - - - - 0x007961 01:B951: 9D 00 04  STA ram_obj_anim_id,X
 C - - - - - 0x007964 01:B954: B9 7E B9  LDA tbl_B97E,Y
 C - - - - - 0x007967 01:B957: 9D 8C 04  STA ram_obj_type,X
-C - - - - - 0x00796A 01:B95A: A4 00     LDY ram_0000_t076
+C - - - - - 0x00796A 01:B95A: A4 00     LDY ram_0000_t076_psw_buffer_index
 C - - - - - 0x00796C 01:B95C: B9 A0 07  LDA ram_psw_buffer,Y
 C - - - - - 0x00796F 01:B95F: 29 3C     AND #$3C
 C - - - - - 0x007971 01:B961: 4A        LSR
@@ -10063,8 +10067,8 @@ C - - - - - 0x00797C 01:B96C: 9D 38 04  STA ram_obj_pos_X_lo,X
 C - - - - - 0x00797F 01:B96F: A9 00     LDA #$00
 C - - - - - 0x007981 01:B971: 9D 54 04  STA ram_obj_spr_A,X
 C - - - - - 0x007984 01:B974: E8        INX
-C - - - - - 0x007985 01:B975: E6 00     INC ram_0000_t076
-C - - - - - 0x007987 01:B977: A5 00     LDA ram_0000_t076
+C - - - - - 0x007985 01:B975: E6 00     INC ram_0000_t076_psw_buffer_index
+C - - - - - 0x007987 01:B977: A5 00     LDA ram_0000_t076_psw_buffer_index
 C - - - - - 0x007989 01:B979: C9 09     CMP #$09
 C - - - - - 0x00798B 01:B97B: 90 C9     BCC bra_B946_loop
 C - - - - - 0x00798D 01:B97D: 60        RTS

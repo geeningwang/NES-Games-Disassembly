@@ -9795,9 +9795,10 @@ sub_0x0131C4_try_to_swap_players:
     ; C
         ; 0 = fail
         ; 1 = success
-C - - - - - 0x0131C4 04:B1B4: A5 C4     LDA ram_00C4
-C - - - - - 0x0131C6 04:B1B6: 05 C5     ORA ram_00C5
+C - - - - - 0x0131C4 04:B1B4: A5 C4     LDA ram_00C4_frozen_objects
+C - - - - - 0x0131C6 04:B1B6: 05 C5     ORA ram_00C4_frozen_objects + $01
 C - - - - - 0x0131C8 04:B1B8: D0 2A     BNE bra_B1E4_fail
+; if no objects are frozen
 C - - - - - 0x0131CA 04:B1BA: A5 3B     LDA ram_player
 C - - - - - 0x0131CC 04:B1BC: 49 01     EOR #$01
 C - - - - - 0x0131CE 04:B1BE: A8        TAY
@@ -9834,7 +9835,7 @@ C - - - - - 0x0131F6 04:B1E6: A5 3F     LDA ram_next_irq_handler
 C - - - - - 0x0131F8 04:B1E8: 85 A6     STA ram_00A6_copy_003F_copy_irq_handler
 C - - - - - 0x0131FA 04:B1EA: A5 41     LDA ram_0041_scanline
 C - - - - - 0x0131FC 04:B1EC: 85 A7     STA ram_00A7_copy_0041_scanline
-C - - - - - 0x0131FE 04:B1EE: A5 42     LDA ram_0042
+C - - - - - 0x0131FE 04:B1EE: A5 42     LDA ram_0042_scanline
 C - - - - - 0x013200 04:B1F0: 85 A8     STA ram_00A8_copy_0042
 C - - - - - 0x013202 04:B1F2: A5 40     LDA ram_for_5204
 C - - - - - 0x013204 04:B1F4: 85 A9     STA ram_00A9_copy_for_5204
@@ -11656,7 +11657,7 @@ bra_B799:
 C - - - - - 0x0137A9 04:B799: A6 6C     LDX ram_006C_object_index
 sub_B79B:
 C - - - - - 0x0137AB 04:B79B: A9 00     LDA #$00
-C - - - - - 0x0137AD 04:B79D: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0137AD 04:B79D: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x0137B0 04:B7A0: 9D 70 04  STA ram_obj_flags,X ; con_obj_flag_00
 C - - - - - 0x0137B3 04:B7A3: 9D C1 05  STA ram_obj_ai_subscript,X
 C - - - - - 0x0137B6 04:B7A6: 9D 00 04  STA ram_obj_anim_id,X
@@ -12108,7 +12109,7 @@ C - - - - - 0x0139E4 04:B9D4: B9 59 BA  LDA tbl_BA59,Y
 C - - - - - 0x0139E7 04:B9D7: 85 08     STA ram_0008_t015_data
 C - - - - - 0x0139E9 04:B9D9: B9 5A BA  LDA tbl_BA59 + $01,Y
 C - - - - - 0x0139EC 04:B9DC: 85 09     STA ram_0008_t015_data + $01
-C - - - - - 0x0139EE 04:B9DE: A5 BC     LDA ram_00BC
+C - - - - - 0x0139EE 04:B9DE: A5 BC     LDA ram_00BC_data_index
 C - - - - - 0x0139F0 04:B9E0: 0A        ASL
 C - - - - - 0x0139F1 04:B9E1: A8        TAY
 C - - - - - 0x0139F2 04:B9E2: B1 08     LDA (ram_0008_t015_data),Y
@@ -12119,7 +12120,7 @@ C - - - - - 0x0139F9 04:B9E9: 85 0B     STA ram_000B_t007
 C - - - - - 0x0139FB 04:B9EB: A9 00     LDA #$00
 C - - - - - 0x0139FD 04:B9ED: 85 0C     STA ram_000C_t009_pos_X_lo
 C - - - - - 0x0139FF 04:B9EF: 85 0D     STA ram_000D_t005_pos_Y_lo
-C - - - - - 0x013A01 04:B9F1: A4 BB     LDY ram_00BB
+C - - - - - 0x013A01 04:B9F1: A4 BB     LDY ram_00BB_table_index
 C - - - - - 0x013A03 04:B9F3: F0 21     BEQ bra_BA16
 C - - - - - 0x013A05 04:B9F5: 88        DEY
 C - - - - - 0x013A06 04:B9F6: B9 46 BA  LDA tbl_BA46_obj_id,Y

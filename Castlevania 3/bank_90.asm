@@ -4583,7 +4583,7 @@ tbl_BE49:
 ofs_063_0x023EE9_16_red_orb:
 ; red orb drops on the ground after boss is defeated
 C - - J - - 0x023EE9 08:BED9: A9 00     LDA #$00
-C - - - - - 0x023EEB 08:BEDB: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x023EEB 08:BEDB: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x023EEE 08:BEDE: 9D F2 04  STA ram_obj_spd_X_lo,X
 C D 1 - - - 0x023EF1 08:BEE1: 9D 09 05  STA ram_obj_spd_X_fr,X
 C D 1 - - - 0x023EF4 08:BEE4: BD C1 05  LDA ram_obj_ai_subscript,X
@@ -4639,7 +4639,7 @@ C - - - - - 0x023F43 08:BF33: A9 63     LDA #con_music_blk_clear
 bra_BF35:
 C - - - - - 0x023F45 08:BF35: 20 5F E2  JSR sub_0x03E26F_play_sound
 C - - - - - 0x023F48 08:BF38: A9 00     LDA #$00
-C - - - - - 0x023F4A 08:BF3A: 85 C1     STA ram_00C1
+C - - - - - 0x023F4A 08:BF3A: 85 C1     STA ram_00C1_obj_id
 C - - - - - 0x023F4C 08:BF3C: 9D 4E 05  STA ram_obj_id,X
 C - - - - - 0x023F4F 08:BF3F: 9D 70 04  STA ram_obj_flags,X ; con_obj_flag_00
 C - - - - - 0x023F52 08:BF42: 9D 00 04  STA ram_obj_anim_id,X

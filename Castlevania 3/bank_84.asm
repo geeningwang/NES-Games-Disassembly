@@ -807,7 +807,7 @@ tbl_8277:
 
 ofs_045_82A5_79:
 C - - J - - 0x0082B5 02:82A5: A9 01     LDA #$01
-C - - - - - 0x0082B7 02:82A7: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0082B7 02:82A7: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x0082BA 02:82AA: A9 00     LDA #$00
 C - - - - - 0x0082BC 02:82AC: 9D 69 06  STA ram_obj_066A,X
 C - - - - - 0x0082BF 02:82AF: BD 70 04  LDA ram_obj_flags,X
@@ -855,7 +855,7 @@ C - - - - - 0x008314 02:8304: C9 40     CMP #$40
 C - - - - - 0x008316 02:8306: 90 3D     BCC bra_8345
 bra_8308:
 C - - - - - 0x008318 02:8308: A9 01     LDA #$01
-C - - - - - 0x00831A 02:830A: 85 C8     STA ram_00C8
+C - - - - - 0x00831A 02:830A: 85 C8     STA ram_00C8_flag
 C - - - - - 0x00831C 02:830C: A9 00     LDA #$00
 C - - - - - 0x00831E 02:830E: 9D 1D 06  STA ram_061D_obj,X
 C - - - - - 0x008321 02:8311: 9D 06 06  STA ram_obj_config,X
@@ -970,12 +970,12 @@ C - - - - - 0x0083F1 02:83E1: BD 1C 04  LDA ram_obj_pos_Y_lo,X
 C - - - - - 0x0083F4 02:83E4: C9 F8     CMP #$F8
 C - - - - - 0x0083F6 02:83E6: 90 0F     BCC bra_83F7
 C - - - - - 0x0083F8 02:83E8: FE C1 05  INC ram_obj_ai_subscript,X
-C - - - - - 0x0083FB 02:83EB: A5 81     LDA ram_0081
+C - - - - - 0x0083FB 02:83EB: A5 81     LDA ram_0081_damage_type
 C - - - - - 0x0083FD 02:83ED: F0 08     BEQ bra_83F7
 C - - - - - 0x0083FF 02:83EF: E4 91     CPX ram_0091_object_index
 C - - - - - 0x008401 02:83F1: D0 04     BNE bra_83F7
 C - - - - - 0x008403 02:83F3: A9 00     LDA #$00
-C - - - - - 0x008405 02:83F5: 85 81     STA ram_0081
+C - - - - - 0x008405 02:83F5: 85 81     STA ram_0081_damage_type
 bra_83F7:
 C - - - - - 0x008407 02:83F7: 4C 70 80  JMP loc_8070
 
@@ -1039,7 +1039,7 @@ C - - - - - 0x00845F 02:844F: B9 65 05  LDA ram_obj_stun_timer,Y
 C - - - - - 0x008462 02:8452: 9D 65 05  STA ram_obj_stun_timer,X
 bra_8455:
 C - - - - - 0x008465 02:8455: A9 01     LDA #$01
-C - - - - - 0x008467 02:8457: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x008467 02:8457: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x00846A 02:845A: BD 06 06  LDA ram_obj_config,X
 C - - - - - 0x00846D 02:845D: D0 32     BNE bra_8491
 C - - - - - 0x00846F 02:845F: BD 45 06  LDA ram_obj_0646,X
@@ -1600,7 +1600,7 @@ bra_8818:
 C - - - - - 0x008828 02:8818: 4C E2 94  JMP loc_94E2_delete_object
 bra_881B:
 C - - - - - 0x00882B 02:881B: A9 00     LDA #$00
-C - - - - - 0x00882D 02:881D: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x00882D 02:881D: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x008830 02:8820: BD 70 04  LDA ram_obj_flags,X
 C - - - - - 0x008833 02:8823: 09 40     ORA #con_obj_flag_40
 C - - - - - 0x008835 02:8825: 9D 70 04  STA ram_obj_flags,X
@@ -1627,8 +1627,8 @@ C - - - - - 0x008860 02:8850: BD C1 05  LDA ram_obj_ai_subscript,X
 C - - - - - 0x008863 02:8853: C9 01     CMP #$01
 C - - - - - 0x008865 02:8855: D0 38     BNE bra_888F
 loc_8857:
-C D 0 - - - 0x008867 02:8857: A9 10     LDA #$10
-C - - - - - 0x008869 02:8859: 9D 57 06  STA ram_obj_0658,X
+C D 0 - - - 0x008867 02:8857: A9 10     LDA #$10 + $00
+C - - - - - 0x008869 02:8859: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x00886C 02:885C: A9 04     LDA #$04    ; pos_X_lo
 C - - - - - 0x00886E 02:885E: A0 08     LDY #$08    ; pos_Y_lo
 C - - - - - 0x008870 02:8860: 20 1E FC  JSR sub_0x03FC2E_check_for_reaching_position
@@ -1684,7 +1684,7 @@ C - - - - - 0x0088C4 02:88B4: 4C C8 FE  JMP loc_0x03FED8_clear_XY_speed
 
 ofs_045_88B7_7D:
 C - - J - - 0x0088C7 02:88B7: A9 01     LDA #$01
-C - - - - - 0x0088C9 02:88B9: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0088C9 02:88B9: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x0088CC 02:88BC: A0 00     LDY #$00
 C - - - - - 0x0088CE 02:88BE: F0 26     BEQ bra_88E6    ; jmp
 
@@ -1692,7 +1692,7 @@ C - - - - - 0x0088CE 02:88BE: F0 26     BEQ bra_88E6    ; jmp
 
 ofs_045_88C0_82:
 C - - J - - 0x0088D0 02:88C0: A9 01     LDA #$01
-C - - - - - 0x0088D2 02:88C2: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0088D2 02:88C2: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x0088D5 02:88C5: A9 00     LDA #$00
 C - - - - - 0x0088D7 02:88C7: 85 00     STA ram_0000_t0B1
 C - - - - - 0x0088D9 02:88C9: AD 1C 04  LDA ram_plr_pos_Y_lo
@@ -1703,8 +1703,8 @@ bra_88D3:
 C - - - - - 0x0088E3 02:88D3: BD 06 06  LDA ram_obj_config,X
 C - - - - - 0x0088E6 02:88D6: C5 00     CMP ram_0000_t0B1
 C - - - - - 0x0088E8 02:88D8: F0 05     BEQ bra_88DF
-C - - - - - 0x0088EA 02:88DA: A9 11     LDA #$11
-C - - - - - 0x0088EC 02:88DC: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0088EA 02:88DA: A9 11     LDA #$10 + $01
+C - - - - - 0x0088EC 02:88DC: 9D 57 06  STA ram_obj_0658_damage_type,X
 bra_88DF:
 C - - - - - 0x0088EF 02:88DF: A9 01     LDA #$01
 C - - - - - 0x0088F1 02:88E1: 18        CLC
@@ -1827,7 +1827,7 @@ C - - - - - 0x0089C4 02:89B4: BD C1 05  LDA ram_obj_ai_subscript,X
 C - - - - - 0x0089C7 02:89B7: C9 02     CMP #$02
 C - - - - - 0x0089C9 02:89B9: 90 05     BCC bra_89C0
 C - - - - - 0x0089CB 02:89BB: A9 00     LDA #$00
-C - - - - - 0x0089CD 02:89BD: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0089CD 02:89BD: 9D 57 06  STA ram_obj_0658_damage_type,X
 bra_89C0:
 C - - - - - 0x0089D0 02:89C0: 4C 70 80  JMP loc_8070
 
@@ -2477,7 +2477,7 @@ tbl_8D85_ppu:
 
 ofs_045_8D95_7F:
 C - - J - - 0x008DA5 02:8D95: A9 00     LDA #$00
-C - - - - - 0x008DA7 02:8D97: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x008DA7 02:8D97: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x008DAA 02:8D9A: BD 06 06  LDA ram_obj_config,X
 C - - - - - 0x008DAD 02:8D9D: D0 2E     BNE bra_8DCD
 C - - - - - 0x008DAF 02:8D9F: BD 38 04  LDA ram_obj_pos_X_lo,X
@@ -2485,7 +2485,7 @@ C - - - - - 0x008DB2 02:8DA2: 85 10     STA ram_0010_t017_pos_X_lo
 C - - - - - 0x008DB4 02:8DA4: BD 1C 04  LDA ram_obj_pos_Y_lo,X
 C - - - - - 0x008DB7 02:8DA7: 85 11     STA ram_0011_t01C_pos_Y_lo
 C - - - - - 0x008DB9 02:8DA9: A9 01     LDA #$01
-C - - - - - 0x008DBB 02:8DAB: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x008DBB 02:8DAB: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x008DBE 02:8DAE: BD 33 06  LDA ram_obj_0634,X
 C - - - - - 0x008DC1 02:8DB1: 85 12     STA ram_0012_t00C
 C - - - - - 0x008DC3 02:8DB3: 20 D6 8E  JSR sub_8ED6
@@ -2855,7 +2855,7 @@ C - - - - - 0x009164 02:9154: BD 1C 04  LDA ram_obj_pos_Y_lo,X
 C - - - - - 0x009167 02:9157: 85 13     STA ram_0013_t008_pos_Y_lo
 C - - - - - 0x009169 02:9159: 85 11     STA ram_0011_t00F_pos_Y_lo
 C - - - - - 0x00916B 02:915B: A9 00     LDA #$00
-C - - - - - 0x00916D 02:915D: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x00916D 02:915D: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x009170 02:9160: BC 06 06  LDY ram_obj_config,X
 C - - - - - 0x009173 02:9163: B9 BB 92  LDA tbl_92BB,Y
 C - - - - - 0x009176 02:9166: F0 22     BEQ bra_918A
@@ -3421,7 +3421,7 @@ C - - - - - 0x0094FC 02:94EC: 20 D7 FE  JSR sub_0x03FEE7_clear_object_speed_and_
 C - - - - - 0x0094FF 02:94EF: 9D 00 04  STA ram_obj_anim_id,X
 C - - - - - 0x009502 02:94F2: 9D 8C 04  STA ram_obj_type,X  ; con_obj_type_00
 C - - - - - 0x009505 02:94F5: 9D AA 05  STA ram_05AA_obj,X
-C - - - - - 0x009508 02:94F8: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x009508 02:94F8: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x00950B 02:94FB: 9D 69 06  STA ram_obj_066A,X
 C - - - - - 0x00950E 02:94FE: 9D 7B 06  STA ram_obj_hp,X
 C - - - - - 0x009511 02:9501: 9D 8D 06  STA ram_obj_068E,X
@@ -8727,13 +8727,13 @@ bra_AC89:
 C - - - - - 0x00AC99 02:AC89: 98        TYA
 C - - - - - 0x00AC9A 02:AC8A: 9D 1C 04  STA ram_obj_pos_Y_lo,X
 C - - - - - 0x00AC9D 02:AC8D: A6 00     LDX ram_0000_t0B0_object_index
-C - - - - - 0x00AC9F 02:AC8F: A5 81     LDA ram_0081
+C - - - - - 0x00AC9F 02:AC8F: A5 81     LDA ram_0081_damage_type
 C - - - - - 0x00ACA1 02:AC91: C9 01     CMP #$01
 C - - - - - 0x00ACA3 02:AC93: D0 08     BNE bra_AC9D
 C - - - - - 0x00ACA5 02:AC95: A5 91     LDA ram_0091_object_index
 C - - - - - 0x00ACA7 02:AC97: C5 00     CMP ram_0000_t0B0_object_index
 C - - - - - 0x00ACA9 02:AC99: D0 02     BNE bra_AC9D
-- - - - - - 0x00ACAB 02:AC9B: C6 81     DEC ram_0081
+- - - - - - 0x00ACAB 02:AC9B: C6 81     DEC ram_0081_damage_type    ; -> 00
 bra_AC9D:
 C - - - - - 0x00ACAD 02:AC9D: 4C E2 94  JMP loc_94E2_delete_object
 
@@ -8917,7 +8917,7 @@ C - - - - - 0x00ADB2 02:ADA2: A9 81     LDA #con_obj_flag_01 + con_obj_flag_not_
 C - - - - - 0x00ADB4 02:ADA4: 1D 70 04  ORA ram_obj_flags,X
 C - - - - - 0x00ADB7 02:ADA7: 9D 70 04  STA ram_obj_flags,X
 C - - - - - 0x00ADBA 02:ADAA: A9 00     LDA #$00
-C - - - - - 0x00ADBC 02:ADAC: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x00ADBC 02:ADAC: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x00ADBF 02:ADAF: 60        RTS
 bra_ADB0:
 sub_ADB0:
@@ -8926,7 +8926,7 @@ C D 1 - - - 0x00ADC0 02:ADB0: A9 7E     LDA #(con_obj_flag_01 + con_obj_flag_not
 C - - - - - 0x00ADC2 02:ADB2: 3D 70 04  AND ram_obj_flags,X
 C - - - - - 0x00ADC5 02:ADB5: 9D 70 04  STA ram_obj_flags,X
 C - - - - - 0x00ADC8 02:ADB8: A9 01     LDA #$01
-C - - - - - 0x00ADCA 02:ADBA: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x00ADCA 02:ADBA: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x00ADCD 02:ADBD: 60        RTS
 
 
@@ -10905,7 +10905,7 @@ C - - - - - 0x00BA22 02:BA12: 85 41     STA ram_0041_scanline
 C - - - - - 0x00BA24 02:BA14: AD 8D 07  LDA ram_078D
 C - - - - - 0x00BA27 02:BA17: 18        CLC
 C - - - - - 0x00BA28 02:BA18: 65 41     ADC ram_0041_scanline
-C - - - - - 0x00BA2A 02:BA1A: 85 42     STA ram_0042
+C - - - - - 0x00BA2A 02:BA1A: 85 42     STA ram_0042_scanline
 C - - - - - 0x00BA2C 02:BA1C: AD 91 07  LDA ram_0791
 C - - - - - 0x00BA2F 02:BA1F: 85 40     STA ram_for_5204
 C - - - - - 0x00BA31 02:BA21: 60        RTS
@@ -11041,7 +11041,7 @@ C - - - - - 0x00BAD8 02:BAC8: 85 40     STA ram_for_5204
 C - - - - - 0x00BADA 02:BACA: A9 08     LDA #$08
 C - - - - - 0x00BADC 02:BACC: 85 41     STA ram_0041_scanline
 C - - - - - 0x00BADE 02:BACE: A9 0E     LDA #$0E
-C - - - - - 0x00BAE0 02:BAD0: 85 42     STA ram_0042
+C - - - - - 0x00BAE0 02:BAD0: 85 42     STA ram_0042_scanline
 C - - - - - 0x00BAE2 02:BAD2: A9 00     LDA #$00
 C - - - - - 0x00BAE4 02:BAD4: 8D 8A 07  STA ram_078A
 C - - - - - 0x00BAE7 02:BAD7: A9 01     LDA #$01

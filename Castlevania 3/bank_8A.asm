@@ -11812,7 +11812,7 @@ C - - - - - 0x017C1B 05:BC0B: A9 00     LDA #$00
 C - - - - - 0x017C1D 05:BC0D: 9D C1 05  STA ram_obj_ai_subscript,X
 C - - - - - 0x017C20 05:BC10: 9D 00 04  STA ram_obj_anim_id,X
 C - - - - - 0x017C23 05:BC13: 9D 8C 04  STA ram_obj_type,X  ; con_obj_type_00
-C - - - - - 0x017C26 05:BC16: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x017C26 05:BC16: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x017C29 05:BC19: 60        RTS
 
 
@@ -11845,7 +11845,7 @@ bra_BC30_loop:
 - - - - - - 0x017C58 05:BC48: A9 6B     LDA #$6B
 - - - - - - 0x017C5A 05:BC4A: 9D EF 05  STA ram_obj_ai_script,X
 - - - - - - 0x017C5D 05:BC4D: A9 00     LDA #$00
-- - - - - - 0x017C5F 05:BC4F: 9D 57 06  STA ram_obj_0658,X
+- - - - - - 0x017C5F 05:BC4F: 9D 57 06  STA ram_obj_0658_damage_type,X
 - - - - - - 0x017C62 05:BC52: 9D C1 05  STA ram_obj_ai_subscript,X
 - - - - - - 0x017C65 05:BC55: E8        INX
 - - - - - - 0x017C66 05:BC56: C8        INY
@@ -11985,8 +11985,8 @@ C - - - - - 0x017D3D 05:BD2D: D0 05     BNE bra_BD34
 C - - - - - 0x017D3F 05:BD2F: A9 60     LDA #con_obj_flag_20 + con_obj_flag_40
 C - - - - - 0x017D41 05:BD31: 9D 70 04  STA ram_obj_flags,X
 bra_BD34:
-C - - - - - 0x017D44 05:BD34: A9 30     LDA #$30
-C - - - - - 0x017D46 05:BD36: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x017D44 05:BD34: A9 30     LDA #$30 + $00
+C - - - - - 0x017D46 05:BD36: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x017D49 05:BD39: FE C1 05  INC ram_obj_ai_subscript,X
 C - - - - - 0x017D4C 05:BD3C: 60        RTS
 

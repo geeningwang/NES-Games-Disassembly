@@ -12752,7 +12752,7 @@ C - - - - - 0x0378AD 0D:B89D: 20 5C EF  JSR sub_0x03EF6C_prepare_animation
 C - - - - - 0x0378B0 0D:B8A0: A9 E8     LDA #$E8
 C - - - - - 0x0378B2 0D:B8A2: 9D 00 04  STA ram_obj_anim_id,X
 C - - - - - 0x0378B5 0D:B8A5: A9 01     LDA #$01
-C - - - - - 0x0378B7 0D:B8A7: 9D 57 06  STA ram_obj_0658,X
+C - - - - - 0x0378B7 0D:B8A7: 9D 57 06  STA ram_obj_0658_damage_type,X
 C - - - - - 0x0378BA 0D:B8AA: 9D A8 04  STA ram_obj_facing,X    ; facing left
 C - - - - - 0x0378BD 0D:B8AD: A9 60     LDA #con_obj_flag_20 + con_obj_flag_40
 C - - - - - 0x0378BF 0D:B8AF: 9D 70 04  STA ram_obj_flags,X

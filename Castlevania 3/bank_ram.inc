@@ -129,7 +129,7 @@ ram_0000_temp                           = $0000 ; 000554(W)  00055A(R)  000BB4(W
     ram_0000_t073_lo                        = ram_0000_temp ; 
     ram_0000_t074_lo                        = ram_0000_temp ; 
     ram_0000_t075                           = ram_0000_temp ; 
-    ram_0000_t076                           = ram_0000_temp ; 
+    ram_0000_t076_psw_buffer_index          = ram_0000_temp ; 
     ram_0000_t077_ppu_lo                    = ram_0000_temp ; 
     ram_0000_t078_ppu_lo                    = ram_0000_temp ; 
     ram_0000_t079                           = ram_0000_temp ; 
@@ -235,7 +235,7 @@ ram_0000_temp                           = $0000 ; 000554(W)  00055A(R)  000BB4(W
     ram_0000_t0DD_screen_timer_hi           = ram_0000_temp ; 
     ram_0000_t0DE_base_nametable            = ram_0000_temp ; 
     ram_0000_t0DF_pos_X_lo                  = ram_0000_temp ; 
-    ram_0000_t0E0                           = ram_0000_temp ; 
+    ram_0000_t0E0_array_index               = ram_0000_temp ; index for ram_00C4_frozen_objects and ram_00CC_array
     ram_0000_t0E1_spd_lo                    = ram_0000_temp ; 
     ram_0000_t0E2_flag                      = ram_0000_temp ; 
     ram_0000_t0E3                           = ram_0000_temp ; 
@@ -383,7 +383,7 @@ ram_0001_temp                           = $0001 ; 000C45(W)  000C4D(R)  000C57(W
     ram_0001_t03F_spd_fr                    = ram_0001_temp ; 
     ram_0001_t040_object_index              = ram_0001_temp ; 
     ram_0001_t041                           = ram_0001_temp ; 
-    ram_0001_t042                           = ram_0001_temp ; 
+    ram_0001_t042_object_bit                = ram_0001_temp ; 
     ram_0001_t043_pos_X_fr                  = ram_0001_temp ; 
     ram_0001_t044_spd_fr                    = ram_0001_temp ; 
     ram_0001_t045_pos_Y_lo                  = ram_0001_temp ; 
@@ -585,7 +585,7 @@ ram_0004_temp                           = $0004 ; 003D53(W)  003D6C(R)  004989(W
     ram_0004_t009_some_obj_flags            = ram_0004_temp ; 
     ram_0004_t00A_spd_X_fr_projectile       = ram_0004_temp ; 
     ram_0004_t00B_match_test_array          = ram_0004_temp ; 4 addresses 0004-0007
-    ram_0004_t00C_copy_ppu_addr_hi          = ram_0004_temp ; 
+    ram_0004_t00C_copy_ppu_hi               = ram_0004_temp ; 
     ram_0004_t00D_lo                        = ram_0004_temp ; 
     ram_0004_t00E_ppu_lo                    = ram_0004_temp ; 
     ram_0004_t00F                           = ram_0004_temp ; 
@@ -619,7 +619,7 @@ ram_0004_temp                           = $0004 ; 003D53(W)  003D6C(R)  004989(W
     ram_0004_t02B_pos_X_lo                  = ram_0004_temp ; 
     ram_0004_t02C                           = ram_0004_temp ; 
     ram_0004_t02D_loop_counter              = ram_0004_temp ; 
-    ram_0004_t02E                           = ram_0004_temp ; bzk optimize
+    ram_0004_t02E_ppu_lo                    = ram_0004_temp ; bzk optimize
     
     ram_0004_tFFD_useless                   = ram_0004_temp ; bzk optimize
     ram_0004_tFFE_useless                   = ram_0004_temp ; bzk optimize
@@ -1612,8 +1612,8 @@ ram_0041_scanline                       = $0041 ; 001698(W)  00BA22(W)  00BA28(R
 
 
 
-; something to do with IRQ
-ram_0042                                = $0042 ; 00169C(W)  0035FF(W)  0062A2(W)  00BA2A(W)  00BAE0(W)  00DF3C(W)  0131FE(R)  03E03F(Wi) 03E124(R)  03E5CF(W)  03E83C(Wx) 
+; for 5203 register
+ram_0042_scanline                       = $0042 ; 00169C(W)  0035FF(W)  0062A2(W)  00BA2A(W)  00BAE0(W)  00DF3C(W)  0131FE(R)  03E03F(Wi) 03E124(R)  03E5CF(W)  03E83C(Wx) 
 
 
 
@@ -1905,8 +1905,11 @@ ram_invinc_timer                        = $0080 ; 001153(W)  0011C4(W)  027918(R
 
 
 
-; 
-ram_0081                                = $0081 ; 0083FB(R)  00AC9F(R)  02F11F(R)  02F13D(W)  02F15A(W)  02F1CF(W)  02F1F5(W)  02F1F9(R)  02F206(W)  02F22E(R)  02F251(W)  02F906(R)  02F9B5(W)  02FA8B(W)  0380E6(W)  038137(R)  038282(R)  038A78(R)  038A80(W)  03E03F(Wi) 03E83C(Wx) 
+; ++++---------- (F0) = 
+; |||| ++++----- (0F) = 
+; |||| ||||
+; xxxx xxxx
+ram_0081_damage_type                    = $0081 ; 0083FB(R)  00AC9F(R)  02F11F(R)  02F13D(W)  02F15A(W)  02F1CF(W)  02F1F5(W)  02F1F9(R)  02F206(W)  02F22E(R)  02F251(W)  02F906(R)  02F9B5(W)  02FA8B(W)  0380E6(W)  038137(R)  038282(R)  038A78(R)  038A80(W)  03E03F(Wi) 03E83C(Wx) 
 
 
 
@@ -1941,7 +1944,7 @@ ram_subweapon_multiplier                = $0087 ; 000E76(Ry) 00B071(Ry) 00B321(W
 
 
 
-; 
+; for 5203 register
 ram_0089_scanline                       = $0089 ; 006029(R)  00610E(R)  006124(R)  006189(R)  006197(R)  00628D(R)  0062F8(R)  00635E(R)  006397(R)  006404(R)  006418(R)  006498(R)  0064A1(R)  006588(R)  00659C(R)  03E03F(Wi) 03E126(W)  03E83C(Wx) 
 
 
@@ -2099,7 +2102,7 @@ ram_00A7_copy_0041_scanline             = $00A7 ; 001696(R)  0131FC(W)  03E03F(W
 
 
 
-; a copy of ram_0042
+; a copy of ram_0042_scanline
 ram_00A8_copy_0042                      = $00A8 ; 00169A(R)  013200(W)  03E03F(Wi) 03E83C(Wx) 
 
 
@@ -2176,14 +2179,39 @@ ram_00B5_brightness_timer               = $00B5 ; 000B86(W)  000B98(W)  00205A(W
 
 
 
-; todo
+; 
 ram_00B6                                = $00B6 ; 03CC70(R)  03CC9B(R)  03CD00(R)  03CD2A(R)  03CD4D(W)  03CD4F(R)  03CD58(R)  03CD60(W)  03CD8D(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00B7                                = $00B7 ; 02E1A0(W)  038133(R)  03814B(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00B8                                = $00B8 ; 02F1B3(R)  038ECC(W)  038F48(W)  03920B(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00B9                                = $00B9 ; 003490(W)  03838B(W)  03945A(W)  0394F4(W)  039550(R)  039554(W)  039841(W)  039EA9(W)  039F0B(W)  03A05A(W)  03A0C4(W)  03A0E8(R)  03A0EC(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 00 = weapon upgrading is done (but animation is not finished yet)
+; 01 = weapon is upgrading (after item pickup)
+ram_00B7_flag                           = $00B7 ; 02E1A0(W)  038133(R)  03814B(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
+ram_00B8_object_index                   = $00B8 ; 02F1B3(R)  038ECC(W)  038F48(W)  03920B(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; disables player movement while timer is counting down
+ram_00B9_disable_movement_timer         = $00B9 ; 003490(W)  03838B(W)  03945A(W)  0394F4(W)  039550(R)  039554(W)  039841(W)  039EA9(W)  039F0B(W)  03A05A(W)  03A0C4(W)  03A0E8(R)  03A0EC(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
 ram_00BA                                = $00BA ; 00116D(W)  00C033(W)  00DE4E(W)  00DF13(W)  0139BC(R)  0139C7(R)  0269B2(W)  0269B9(W)  0275C0(W)  0275C9(W)  02F3A4(R)  02F469(R)  03251F(W)  0329C7(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00BB                                = $00BB ; 00C037(W)  00DE56(W)  013A01(R)  0275BE(W)  032523(W)  0329D4(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00BC                                = $00BC ; 00DE52(W)  0139EE(R)  0275CF(W)  03251B(W)  0329CF(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; index for 0x013A56
+ram_00BB_table_index                    = $00BB ; 00C037(W)  00DE56(W)  013A01(R)  0275BE(W)  032523(W)  0329D4(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; index for 0x013A69
+ram_00BC_data_index                     = $00BC ; 00DE52(W)  0139EE(R)  0275CF(W)  03251B(W)  0329CF(W)  03E03F(Wi) 03E83C(Wx) 
 
 
 
@@ -2192,23 +2220,84 @@ ram_copy_hp_boss                        = $00BD ; 0011AC(R)  0011B9(W)  0273CF(W
 
 
 
-; todo
-ram_00BE                                = $00BE ; 0011AF(R)  0011B6(W)  0273C7(W)  02903D(R)  03E03F(Wi) 03E83C(Wx) 
-ram_00BF                                = $00BF ; 003593(R)  0035D4(W)  03811C(R)  0383A8(R)  0383B7(W)  038404(R)  038AEE(R)  038B0C(W)  038B27(W)  038B67(R)  038B9C(W)  038BB4(W)  038BD0(R)  038D1B(W)  038D8B(R)  03AE81(R)  03E03F(Wi) 03E83C(Wx) 03F53B(R)  03F5E6(R)  03F7F7(R)  
-ram_00C0                                = $00C0 ; 00115D(W)  0035DD(R)  03E03F(Wi) 03E83C(Wx) 
-ram_00C1                                = $00C1 ; 001163(W)  00C7D4(W)  00DDB0(W)  023F4A(W)  024538(W)  028F8B(W)  028F94(R)  03E03F(Wi) 03E83C(Wx) 
-ram_00C2                                = $00C2 ; 00115F(W)  001507(R)  00DDDF(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00C3                                = $00C3 ; 02451C(R)  028F23(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00C4                                = $00C4 ; 001165(W)  0131C4(R)  0242B8(Ry) 0242BB(Wy) 024424(Ry) 024427(Wy) 02448D(Ry) 03E03F(Wi) 03E83C(Wx) 
-ram_00C5                                = $00C5 ; 001167(W)  0131C6(R)  02448D(Ry) 03E03F(Wi) 03E83C(Wx) 
-ram_00C6                                = $00C6 ; 0012D3(W)  001461(R)  03E03F(Wi) 03E83C(Wx) 
-ram_00C7                                = $00C7 ; 003D8F(W)  02C152(R)  03E03F(Wi) 03E83C(Wx) 03F4FF(R)  03F503(W)  
-ram_00C8                                = $00C8 ; 001161(W)  00831A(W)  038792(R)  03E03F(Wi) 03E83C(Wx) 
-ram_00C9                                = $00C9 ; 00350C(W)  003650(R)  0036EC(W)  03E03F(Wi) 03E83C(Wx) 03F70C(W)  
-ram_00CA                                = $00CA ; 003535(R)  003597(R)  0035A5(R)  0035FB(W)  0035FD(R)  0270BE(R)  02872F(R)  028752(R)  02C138(R)  02C830(R)  02C8AA(R)  02C8D2(R)  02E0A2(R)  03D5D5(W)  03E03F(Wi) 03E83C(Wx) 
+; 
+ram_00BE_loop_counter                   = $00BE ; 0011AF(R)  0011B6(W)  0273C7(W)  02903D(R)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 00 = 
+; 01 = 
+; 02 = 
+; +80 = 
+; handler at 0x038AF5
+ram_00BF_death_script                   = $00BF ; 003593(R)  0035D4(W)  03811C(R)  0383A8(R)  0383B7(W)  038404(R)  038AEE(R)  038B0C(W)  038B27(W)  038B67(R)  038B9C(W)  038BB4(W)  038BD0(R)  038D1B(W)  038D8B(R)  03AE81(R)  03E03F(Wi) 03E83C(Wx) 03F53B(R)  03F5E6(R)  03F7F7(R)  
+
+
+
+; bzk optimize, always 00
+ram_00C0_useless_00                     = $00C0 ; 00115D(W)  0035DD(R)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
+ram_00C1_obj_id                         = $00C1 ; 001163(W)  00C7D4(W)  00DDB0(W)  023F4A(W)  024538(W)  028F8B(W)  028F94(R)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 00 = 
+; 01 = 
+ram_00C2_flag                           = $00C2 ; 00115F(W)  001507(R)  00DDDF(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; index for ram_spawner_script and ram_spawner_subscript
+ram_spawner_scr_index                   = $00C3 ; 02451C(R)  028F23(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; after Sypha uses her ice magic
+; sets bits for each object if frozen
+; prevents from swapping players if at least one bit is set
+ram_00C4_frozen_objects                 = $00C4 ; 001165(W)  0131C4(R)  0242B8(Ry) 0242BB(Wy) 024424(Ry) 024427(Wy) 02448D(Ry) 03E03F(Wi) 03E83C(Wx) 
+; ram_00C5                              = $00C5 ; 001167(W)  0131C6(R)  02448D(Ry) 03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
+ram_00C6_table_index                    = $00C6 ; 0012D3(W)  001461(R)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
+ram_00C7_timer                          = $00C7 ; 003D8F(W)  02C152(R)  03E03F(Wi) 03E83C(Wx) 03F4FF(R)  03F503(W)  
+
+
+
+; 00 = 
+; 01 = 
+ram_00C8_flag                           = $00C8 ; 001161(W)  00831A(W)  038792(R)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
+ram_00C9_counter                        = $00C9 ; 00350C(W)  003650(R)  0036EC(W)  03E03F(Wi) 03E83C(Wx) 03F70C(W)  
+
+
+
+; 
+ram_00CA_spawning_pos_Y_lo              = $00CA ; 003535(R)  003597(R)  0035A5(R)  0035FB(W)  0035FD(R)  0270BE(R)  02872F(R)  028752(R)  02C138(R)  02C830(R)  02C8AA(R)  02C8D2(R)  02E0A2(R)  03D5D5(W)  03E03F(Wi) 03E83C(Wx) 
+
+
+
+; 
 ram_00CB                                = $00CB ; 0035F2(R)  0035F7(W)  03D5D9(W)  03E03F(Wi) 03E83C(Wx) 
-ram_00CC                                = $00CC ; 001169(W)  024385(Ry) 024388(Wy) 02446F(Ry) 024472(Wy) 024496(Ry) 03E03F(Wi) 03E83C(Wx) 
-ram_00CD                                = $00CD ; 00116B(W)  024385(Ry) 024388(Wy) 02446F(Ry) 024472(Wy) 024496(Ry) 03E03F(Wi) 03E83C(Wx) 
+
+
+
+; something to do with hitting boss
+; mechanic is similar to ram_00C4_frozen_objects
+ram_00CC_array                          = $00CC ; 001169(W)  024385(Ry) 024388(Wy) 02446F(Ry) 024472(Wy) 024496(Ry) 03E03F(Wi) 03E83C(Wx) 
+; ram_00CD                              = $00CD ; 00116B(W)  024385(Ry) 024388(Wy) 02446F(Ry) 024472(Wy) 024496(Ry) 03E03F(Wi) 03E83C(Wx) 
 
 
 
@@ -4193,7 +4282,7 @@ ram_obj_0646                            = $0646 - $01 ; a separate link to look 
 ; this range doesn't have an address for a player, but refers
 ; via the last address of the previous range as if it has
 ; bzk I suggest to put an unused player address at the beginning of this range
-ram_obj_0658                            = $0658 - $01 ; a separate link to look less ugly in the code
+ram_obj_0658_damage_type                = $0658 - $01 ; a separate link to look less ugly in the code
 ; ram_0658                              = $0658 ; 0082B7(Wx) 008467(Wx) 00882D(Wx) 008869(Wx) 0088C9(Wx) 0088D2(Wx) 0088EC(Wx) 0089CD(Wx) 008DA7(Wx) 008DBB(Wx) 009508(Wx) 00ADBC(Wx) 00ADCA(Wx) 00CA6B(Wx) 00CDC0(Wx) 00CE2B(Wx) 00D397(Wx) 00D8FC(Wx) 00D954(Wx) 00DA5A(Wx) 00DDB4(Wx) 00DE5A(Wx) 0137AD(Wx) 017C26(Wx) 023EEB(Wx) 0240A9(Wx) 024769(Wx) 024830(Wx) 02487C(Wy) 0248C9(Wx) 025C32(Wx) 026161(Wx) 0261FD(Wx) 02622B(Wx) 02625E(Rx) 0263C6(Wx) 02654A(Wx) 026565(Wx) 02667E(Wx) 026CAB(Wx) 026D81(Wx) 02708F(Wx) 0275B2(Ry) 0276B8(Wx) 027793(Wx) 02798D(Wx) 027C1E(Wx) 027C41(Wx) 027F61(Wx) 0283D1(Wx) 028BB1(Wx) 028DB6(Wx) 028DE8(Wx) 02D03D(Rx) 02D042(Wx) 02DFEF(Wx) 02F15F(Rx) 02F166(Rx) 02F24E(Rx) 02F361(Rx) 02F37F(Rx) 02F54A(Wx) 02F596(Wx) 0325AD(Wx) 0327E6(Wx) 0378B7(Wx) 03E03F(Wi) 03E858(Wx) 
 ; ram_0659                              = $0659 ; 0082B7(Wx) 008467(Wx) 00882D(Wx) 008869(Wx) 0088C9(Wx) 0088D2(Wx) 0088EC(Wx) 0089CD(Wx) 008DA7(Wx) 00916D(Wx) 009508(Wx) 00ADBC(Wx) 00ADCA(Wx) 00CA6B(Wx) 00CCB5(Wx) 00D8FC(Wx) 00D954(Wx) 00DC93(Wx) 00DCF2(Wx) 0137AD(Wx) 017C26(Wx) 023EEB(Wx) 0240A9(Wx) 024769(Wx) 024830(Wx) 0248C9(Wx) 025C32(Wx) 0261A8(Wx) 0261FD(Wx) 0264A5(Wx) 0264CF(Wx) 02667E(Wx) 026D81(Wx) 02708F(Wx) 0270EE(Wx) 0275B5(Wx) 027A13(Wx) 027C1E(Wx) 027C41(Wx) 027E7E(Wx) 0283D1(Wx) 028BB1(Wx) 028DB6(Wx) 02D03D(Rx) 02D042(Wx) 02DAF8(Wy) 02DFEF(Wx) 02F14A(Rx) 02F166(Rx) 02F24E(Rx) 02F361(Rx) 02F54A(Wx) 02F596(Wx) 0324F6(Wx) 03256D(Wx) 0378B7(Wx) 03E03F(Wi) 03E858(Wx) 
 ; ram_065A                              = $065A ; 0082B7(Wx) 008467(Wx) 00882D(Wx) 008869(Wx) 0088C9(Wx) 0088D2(Wx) 0088EC(Wx) 0089CD(Wx) 008DA7(Wx) 00916D(Wx) 009508(Wx) 00ADBC(Wx) 00ADCA(Wx) 00CDC0(Wx) 00D8FC(Wx) 00D954(Wx) 00DC93(Wx) 00DCF2(Wx) 0137AD(Wx) 017C26(Wx) 0240A9(Wx) 024769(Wx) 025C32(Wx) 0261A8(Wx) 0261FD(Wx) 0264A5(Wx) 0264CF(Wx) 026D81(Wx) 02708F(Wx) 0270EE(Wx) 0278C2(Wx) 027A16(Wx) 027C1E(Wx) 027C41(Wx) 0283D1(Wx) 028DB6(Wx) 02D03D(Rx) 02D042(Wx) 02DAF8(Wy) 02DFEF(Wx) 02F166(Rx) 02F24E(Rx) 02F361(Rx) 02F54A(Wx) 02F596(Wx) 0324F6(Wx) 032FF7(Wx) 03E03F(Wi) 03E858(Wx) 
@@ -4758,6 +4847,7 @@ ram_07E6_spawner_cfg                    = $07E6 ; 028166(Wx) 0282A1(Wx) 0286FB(W
 
 
 
+; todo
 ; something to do with dragon boss?
 ram_07EC                                = $07EC ; 001331(W)  001E13(Wx) 002322(W)  00232E(R)  002350(R)  002357(R)  00428F(W)  0042E8(R)  0043BD(W)  004462(W)  004903(W)  0054C8(R)  0067D3(R)  0067E5(R)  0068AB(W)  00694F(W)  006E34(R)  008DD9(Wy) 008DE0(Ry) 00A8AE(W)  00A97E(Wy) 00D544(W)  00D5AC(W)  00D5E3(R)  00DA94(W)  00DABB(W)  00DB1A(R)  00DB4D(R)  00DB60(R)  00DB65(W)  00DB6A(R)  00DC1E(R)  00DD9F(R)  00DDA8(R)  00DDAB(W)  00DE68(W)  00DF17(W)  023F5F(W)  024819(R)  0248FF(R)  02521C(R)  025225(R)  02522C(W)  025238(R)  025281(R)  0252BA(R)  0252E6(R)  025324(W)  025363(R)  02537C(R)  0253A6(R)  02664B(R)  026823(R)  0268A2(R)  0268C0(W)  0268E4(W)  0268EE(W)  0269C0(W)  026A57(R)  026A5E(W)  026BF2(W)  026CDE(W)  026D0F(R)  026D9B(R)  026DDB(R)  026E05(R)  026E10(R)  026E35(W)  0274FF(R)  0275C2(R)  0275CB(R)  0275D1(R)  027678(W)  027C7F(W)  027CDA(R)  0288FC(Rx) 028905(Wx) 028908(Rx) 028915(Wx) 02907E(Ry) 029081(Wy) 02908D(Wy) 02928E(W)  02DB1A(W)  02DD35(R)  02DD43(W)  02DD49(W)  0328EC(W)  03AE53(R)  03E03F(Wi) 03E3BD(W)  03E84F(Wx) 03F648(R)  03F650(R)  
 ram_07ED                                = $07ED ; 001339(W)  001E13(Wx) 001E3B(W)  001E61(R)  001ED5(R)  001F35(R)  002325(R)  0023E9(R)  002432(R)  004044(W)  004052(W)  004070(W)  0040B6(W)  00427B(W)  004289(W)  0042B7(W)  00431E(W)  004389(W)  00439F(W)  0043BA(W)  004409(W)  00444A(W)  004467(W)  0044C2(W)  004518(W)  004549(W)  004588(R)  0045D0(W)  004606(W)  004676(W)  00467A(W)  00467D(R)  004682(W)  004691(R)  004697(W)  0046A4(W)  0046BA(R)  004701(R)  00471A(W)  00471E(R)  00472F(W)  004747(R)  00474A(W)  004759(W)  004775(W)  00478F(W)  0047B7(R)  0047BA(W)  0047C3(W)  004815(W)  004820(W)  00482D(W)  00486C(W)  0048A2(W)  0048D3(W)  0048EC(W)  004906(W)  004926(R)  005765(W)  005876(W)  0059B1(W)  005A29(W)  00606A(R)  006893(W)  0068BA(W)  00691F(W)  006966(W)  0069FE(W)  006B12(W)  006E9D(R)  006EA5(W)  006EA8(R)  0082DA(R)  008369(R)  00837D(W)  008DD9(Wy) 008DE0(Ry) 00A710(W)  00A71B(W)  00A8B1(W)  00A97E(Wy) 00C08C(Wy) 00C1B5(Wy) 00C356(Wy) 00C36A(Ry) 00CE11(W)  00D085(R)  00D232(W)  00D23B(W)  00D547(R)  00D5AF(W)  00D624(R)  00D627(W)  00D9F5(W)  00DA2F(W)  00DB7A(R)  00DB8C(R)  00DB96(R)  023F59(Wy) 025231(W)  025251(W)  0252C4(W)  0253AF(W)  0253B3(R)  0253BB(W)  025FA6(W)  025FB5(W)  026DF6(W)  026E38(W)  0275E7(R)  027653(W)  027C16(W)  027C72(R)  027C75(W)  027D7E(R)  027D91(R)  027DD0(W)  027DDA(R)  027E21(W)  02907E(Ry) 029081(Wy) 02908D(Wy) 029288(Wy) 02DA59(W)  02DA71(R)  02DA94(R)  02DB20(R)  02DC46(R)  02DD2F(R)  02DE4C(R)  032AED(W)  032AFC(W)  032B1A(R)  03E03F(Wi) 03E84F(Wx) 03F655(R)  

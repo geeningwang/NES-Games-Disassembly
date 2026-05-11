@@ -156,7 +156,7 @@ bra_80D0:
 C - - - - - 0x0380E0 0E:80D0: C9 08     CMP #$08
 C - - - - - 0x0380E2 0E:80D2: B0 04     BCS bra_80D8_RTS
 C - - - - - 0x0380E4 0E:80D4: A9 0E     LDA #$0E
-C - - - - - 0x0380E6 0E:80D6: 85 81     STA ram_0081
+C - - - - - 0x0380E6 0E:80D6: 85 81     STA ram_0081_damage_type
 bra_80D8_RTS:
 C - - - - - 0x0380E8 0E:80D8: 60        RTS
 
@@ -194,7 +194,7 @@ C - - - - - 0x038116 0E:8106: A5 AF     LDA ram_00AF
 C - - - - - 0x038118 0E:8108: F0 02     BEQ bra_810C
 C - - - - - 0x03811A 0E:810A: C6 AF     DEC ram_00AF
 bra_810C:
-C - - - - - 0x03811C 0E:810C: A5 BF     LDA ram_00BF
+C - - - - - 0x03811C 0E:810C: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x03811E 0E:810E: D0 1B     BNE bra_812B_RTS
 C - - - - - 0x038120 0E:8110: A5 80     LDA ram_invinc_timer
 C - - - - - 0x038122 0E:8112: F0 0A     BEQ bra_811E
@@ -207,9 +207,9 @@ bra_811E:
 C - - - - - 0x03812E 0E:811E: A0 00     LDY #con_obj_flag_00
 bra_8120:
 C - - - - - 0x038130 0E:8120: 8C 70 04  STY ram_plr_flags
-C - - - - - 0x038133 0E:8123: A5 B7     LDA ram_00B7
+C - - - - - 0x038133 0E:8123: A5 B7     LDA ram_00B7_flag
 C - - - - - 0x038135 0E:8125: D0 12     BNE bra_8139
-C - - - - - 0x038137 0E:8127: A5 81     LDA ram_0081
+C - - - - - 0x038137 0E:8127: A5 81     LDA ram_0081_damage_type
 C - - - - - 0x038139 0E:8129: D0 01     BNE bra_812C
 bra_812B_RTS:
 C - - - - - 0x03813B 0E:812B: 60        RTS
@@ -223,7 +223,7 @@ C - - - - - 0x038146 0E:8136: D0 6A     BNE bra_81A2
 C - - - - - 0x038148 0E:8138: 60        RTS
 bra_8139:
 C - - - - - 0x038149 0E:8139: A9 00     LDA #$00
-C - - - - - 0x03814B 0E:813B: 85 B7     STA ram_00B7
+C - - - - - 0x03814B 0E:813B: 85 B7     STA ram_00B7_flag
 C - - - - - 0x03814D 0E:813D: A5 2A     LDA ram_002A_script
 C - - - - - 0x03814F 0E:813F: 85 9F     STA ram_009F_copy_002A_script
 C - - - - - 0x038151 0E:8141: A9 19     LDA #con_002A_19
@@ -394,14 +394,16 @@ C - - - - - 0x038278 0E:8268: B9 E4 82  LDA tbl_82E4_damage,Y
 C - - - - - 0x03827B 0E:826B: 85 08     STA ram_0008_t00C_damage_data
 C - - - - - 0x03827D 0E:826D: B9 E5 82  LDA tbl_82E4_damage + $01,Y
 C - - - - - 0x038280 0E:8270: 85 09     STA ram_0008_t00C_damage_data + $01
-C - - - - - 0x038282 0E:8272: A5 81     LDA ram_0081
+C - - - - - 0x038282 0E:8272: A5 81     LDA ram_0081_damage_type
 ; / 10
 C - - - - - 0x038284 0E:8274: 4A        LSR
 C - - - - - 0x038285 0E:8275: 4A        LSR
 C - - - - - 0x038286 0E:8276: 4A        LSR
 C - - - - - 0x038287 0E:8277: 4A        LSR
-C - - - - - 0x038288 0E:8278: C9 0F     CMP #$0F
+C - - - - - 0x038288 0E:8278: C9 0F     CMP #$F0 / $10  ; 0F
+; bzk F0+ was logged in the movie
 C - - - - - 0x03828A 0E:827A: F0 12     BEQ bra_828E_0F_instant_death
+; 
 C - - - - - 0x03828C 0E:827C: A8        TAY
 C - - - - - 0x03828D 0E:827D: B1 08     LDA (ram_0008_t00C_damage_data),Y
 C - - - - - 0x03828F 0E:827F: A8        TAY
@@ -587,6 +589,7 @@ off_82EC_03_Alucard:
 - - - - - - 0x038308 0E:82F8: 0C        .byte $0C   ; C0 
 - - - - - - 0x038309 0E:82F9: 0D        .byte $0D   ; D0 
 - - - - - - 0x03830A 0E:82FA: 0E        .byte $0E   ; E0 
+; bzk garbage 0x038288
 - - - - - - 0x03830B 0E:82FB: 0F        .byte $0F   ; F0 
 
 
@@ -608,6 +611,7 @@ off_82FC_02_Grant:
 - - - - - - 0x038318 0E:8308: 0D        .byte $0D   ; C0 
 - - - - - - 0x038319 0E:8309: 0E        .byte $0E   ; D0 
 - - - - - - 0x03831A 0E:830A: 0F        .byte $0F   ; E0 
+; bzk garbage 0x038288
 - - - - - - 0x03831B 0E:830B: 0F        .byte $0F   ; F0 
 
 
@@ -689,7 +693,7 @@ C - - - - - 0x038386 0E:8376: F0 01     BEQ bra_8379
 C - - - - - 0x038388 0E:8378: 60        RTS
 bra_8379:
 C - - - - - 0x038389 0E:8379: A9 00     LDA #$00
-C - - - - - 0x03838B 0E:837B: 85 B9     STA ram_00B9
+C - - - - - 0x03838B 0E:837B: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x03838D 0E:837D: AD 4E 05  LDA ram_plr_id
 C - - - - - 0x038390 0E:8380: C9 02     CMP #$02
 C - - - - - 0x038392 0E:8382: D0 0F     BNE bra_8393
@@ -708,14 +712,14 @@ C - - - - - 0x0383A7 0E:8397: 60        RTS
 bra_8398_kill_player:
 sub_8398_kill_player:
 loc_8398_kill_player:
-C D 0 - - - 0x0383A8 0E:8398: A5 BF     LDA ram_00BF
+C D 0 - - - 0x0383A8 0E:8398: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x0383AA 0E:839A: D0 0D     BNE bra_83A9_RTS
 C - - - - - 0x0383AC 0E:839C: A9 00     LDA #$00
 C - - - - - 0x0383AE 0E:839E: 85 3C     STA ram_hp_player
 C - - - - - 0x0383B0 0E:83A0: A9 2E     LDA #con_plr_state_death
 C - - - - - 0x0383B2 0E:83A2: 8D 65 05  STA ram_plr_state
 C - - - - - 0x0383B5 0E:83A5: A9 80     LDA #$80
-C - - - - - 0x0383B7 0E:83A7: 85 BF     STA ram_00BF
+C - - - - - 0x0383B7 0E:83A7: 85 BF     STA ram_00BF_death_script
 bra_83A9_RTS:
 C - - - - - 0x0383B9 0E:83A9: 60        RTS
 
@@ -787,7 +791,7 @@ C - - - - - 0x038403 0E:83F3: 60        RTS
 
 
 sub_83F4:
-C - - - - - 0x038404 0E:83F4: A5 BF     LDA ram_00BF
+C - - - - - 0x038404 0E:83F4: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x038406 0E:83F6: D0 24     BNE bra_841C_RTS
 C - - - - - 0x038408 0E:83F8: A9 00     LDA #$00
 C - - - - - 0x03840A 0E:83FA: 85 3C     STA ram_hp_player
@@ -1442,7 +1446,7 @@ C - - - - - 0x03878F 0E:877F: B0 1A     BCS bra_879B_right_corner
 bra_8781_RTS:
 C - - - - - 0x038791 0E:8781: 60        RTS
 bra_8782:
-C - - - - - 0x038792 0E:8782: A5 C8     LDA ram_00C8
+C - - - - - 0x038792 0E:8782: A5 C8     LDA ram_00C8_flag
 C - - - - - 0x038794 0E:8784: D0 DC     BNE bra_8762
 C - - - - - 0x038796 0E:8786: A5 56     LDA ram_cam_pos_lo
 C - - - - - 0x038798 0E:8788: 05 57     ORA ram_cam_pos_hi
@@ -2103,11 +2107,11 @@ C - - - - - 0x038A6F 0E:8A5F: 30 BF     BMI bra_8A20_RTS    ; if con_plr_state_8
 C - - - - - 0x038A71 0E:8A61: 20 D9 80  JSR sub_80D9
 C - - - - - 0x038A74 0E:8A64: A5 8B     LDA ram_008B
 C - - - - - 0x038A76 0E:8A66: 85 CF     STA ram_00CF
-C - - - - - 0x038A78 0E:8A68: A5 81     LDA ram_0081
+C - - - - - 0x038A78 0E:8A68: A5 81     LDA ram_0081_damage_type
 C - - - - - 0x038A7A 0E:8A6A: 29 0F     AND #$0F
 C - - - - - 0x038A7C 0E:8A6C: 85 8B     STA ram_008B
 C - - - - - 0x038A7E 0E:8A6E: A9 00     LDA #$00
-C - - - - - 0x038A80 0E:8A70: 85 81     STA ram_0081
+C - - - - - 0x038A80 0E:8A70: 85 81     STA ram_0081_damage_type
 C - - - - - 0x038A82 0E:8A72: A5 68     LDA ram_blk_scroll_type
 C - - - - - 0x038A84 0E:8A74: 10 17     BPL bra_8A8D_horisontal
 ; if vertical
@@ -2190,7 +2194,7 @@ ofs_Alucard_state_8ADE_2E_death:
 ofs_Trevor_state_8ADE_2E_death:
 ofs_Sypha_state_8ADE_2E_death:
 ofs_Grant_state_8ADE_2E_death:
-C - - J - - 0x038AEE 0E:8ADE: A5 BF     LDA ram_00BF
+C - - J - - 0x038AEE 0E:8ADE: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x038AF0 0E:8AE0: 29 7F     AND #$7F
 C - - - - - 0x038AF2 0E:8AE2: 20 6D E8  JSR sub_0x03E87D_jump_to_pointers_after_JSR_A
 - D 0 - I - 0x038AF5 0E:8AE5: EB 8A     .word ofs_004_8AEB_00
@@ -2207,7 +2211,7 @@ C - - - - - 0x038B03 0E:8AF3: 84 80     STY ram_invinc_timer
 C - - - - - 0x038B05 0E:8AF5: 8C 70 04  STY ram_plr_flags   ; con_obj_flag_00
 C - - - - - 0x038B08 0E:8AF8: C8        INY ; 01
 C - - - - - 0x038B09 0E:8AF9: 8C 7C 05  STY ram_plr_anim_timer
-C - - - - - 0x038B0C 0E:8AFC: E6 BF     INC ram_00BF
+C - - - - - 0x038B0C 0E:8AFC: E6 BF     INC ram_00BF_death_script    ; -> 81
 C - - - - - 0x038B0E 0E:8AFE: 60        RTS
 
 
@@ -2224,7 +2228,7 @@ C - - - - - 0x038B1C 0E:8B0C: 20 5F E2  JSR sub_0x03E26F_play_sound
 C - - - - - 0x038B1F 0E:8B0F: 20 CE E5  JSR sub_0x03E5DE_forbid_pausing
 C - - - - - 0x038B22 0E:8B12: A9 64     LDA #$64
 C - - - - - 0x038B24 0E:8B14: 8D D4 05  STA ram_05C1_wpn + con_obj_index_weapon
-C - - - - - 0x038B27 0E:8B17: E6 BF     INC ram_00BF
+C - - - - - 0x038B27 0E:8B17: E6 BF     INC ram_00BF_death_script    ; -> 82
 C - - - - - 0x038B29 0E:8B19: 60        RTS
 
 
@@ -2291,10 +2295,11 @@ ofs_Alucard_state_8B57_2C:
 ofs_Trevor_state_8B57_2C:
 ofs_Sypha_state_8B57_2C:
 ofs_Grant_state_8B57_2C:
-C - - J - - 0x038B67 0E:8B57: A5 BF     LDA ram_00BF
+C - - J - - 0x038B67 0E:8B57: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x038B69 0E:8B59: 29 7F     AND #$7F
 C - - - - - 0x038B6B 0E:8B5B: A8        TAY
 C - - - - - 0x038B6C 0E:8B5C: D0 31     BNE bra_8B8F
+; if 80
 C - - - - - 0x038B6E 0E:8B5E: AD 1C 04  LDA ram_plr_pos_Y_lo
 C - - - - - 0x038B71 0E:8B61: A4 68     LDY ram_blk_scroll_type
 C - - - - - 0x038B73 0E:8B63: 30 06     BMI bra_8B6B_vertical
@@ -2320,11 +2325,12 @@ C - - - - - 0x038B86 0E:8B76: B0 11     BCS bra_8B89
 bra_8B89:
 C - - - - - 0x038B99 0E:8B89: 4C 12 87  JMP loc_8712
 bra_8B8C:
-C - - - - - 0x038B9C 0E:8B8C: E6 BF     INC ram_00BF
+C - - - - - 0x038B9C 0E:8B8C: E6 BF     INC ram_00BF_death_script   ; -> 81
 C - - - - - 0x038B9E 0E:8B8E: 60        RTS
 bra_8B8F:
 C - - - - - 0x038B9F 0E:8B8F: 88        DEY
-C - - - - - 0x038BA0 0E:8B90: D0 15     BNE bra_8BA7
+C - - - - - 0x038BA0 0E:8B90: D0 15     BNE bra_8BA7_82
+; if 81
 C - - - - - 0x038BA2 0E:8B92: A9 00     LDA #$00
 C - - - - - 0x038BA4 0E:8B94: 8D 00 04  STA ram_plr_anim_id
 C - - - - - 0x038BA7 0E:8B97: A9 80     LDA #$80
@@ -2332,10 +2338,10 @@ C - - - - - 0x038BA9 0E:8B99: 8D D4 05  STA ram_05C1_wpn + con_obj_index_weapon
 C - - - - - 0x038BAC 0E:8B9C: A9 4E     LDA #con_music_death
 C - - - - - 0x038BAE 0E:8B9E: 20 5F E2  JSR sub_0x03E26F_play_sound
 C - - - - - 0x038BB1 0E:8BA1: 20 CE E5  JSR sub_0x03E5DE_forbid_pausing
-C - - - - - 0x038BB4 0E:8BA4: E6 BF     INC ram_00BF
+C - - - - - 0x038BB4 0E:8BA4: E6 BF     INC ram_00BF_death_script   ; -> 82
 C - - - - - 0x038BB6 0E:8BA6: 60        RTS
 loc_8BA7:
-bra_8BA7:
+bra_8BA7_82:
 C D 0 - - - 0x038BB7 0E:8BA7: CE D4 05  DEC ram_05C1_wpn + con_obj_index_weapon
 C - - - - - 0x038BBA 0E:8BAA: F0 01     BEQ bra_8BAD
 C - - - - - 0x038BBC 0E:8BAC: 60        RTS
@@ -2352,7 +2358,7 @@ C - - - - - 0x038BCD 0E:8BBD: 4C CA E5  JMP loc_0x03E5DA_allow_pausing
 
 
 sub_8BC0:
-C - - - - - 0x038BD0 0E:8BC0: A5 BF     LDA ram_00BF
+C - - - - - 0x038BD0 0E:8BC0: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x038BD2 0E:8BC2: F0 01     BEQ bra_8BC5
 bra_8BC4_RTS:
 C - - - - - 0x038BD4 0E:8BC4: 60        RTS
@@ -2393,7 +2399,7 @@ bra_8BFC:
 C - - - - - 0x038C0C 0E:8BFC: A5 7D     LDA ram_007D
 C - - - - - 0x038C0E 0E:8BFE: 29 0F     AND #$0F
 C - - - - - 0x038C10 0E:8C00: A8        TAY
-C - - - - - 0x038C11 0E:8C01: B9 56 8C  LDA tbl_8C56,Y
+C - - - - - 0x038C11 0E:8C01: B9 56 8C  LDA tbl_8C56_plr_pos_Y_lo,Y
 C - - - - - 0x038C14 0E:8C04: CD 1C 04  CMP ram_plr_pos_Y_lo
 C - - - - - 0x038C17 0E:8C07: B0 F2     BCS bra_8BFB_RTS
 bra_8C09:
@@ -2440,7 +2446,7 @@ C - - - - - 0x038C62 0E:8C52: 90 87     BCC bra_8BDB
 
 
 
-tbl_8C56:
+tbl_8C56_plr_pos_Y_lo:
 - D 0 - - - 0x038C66 0E:8C56: B0        .byte $B0   ; 00 
 - D 0 - - - 0x038C67 0E:8C57: D0        .byte $D0   ; 01 
 
@@ -2581,7 +2587,7 @@ C - - - - - 0x038D0F 0E:8CFF: 10 08     BPL bra_8D09
 - - - - - - 0x038D16 0E:8D06: 8D 37 05  STA ram_plr_spd_Y_fr
 bra_8D09:
 C - - - - - 0x038D19 0E:8D09: A9 80     LDA #$80
-C - - - - - 0x038D1B 0E:8D0B: 85 BF     STA ram_00BF
+C - - - - - 0x038D1B 0E:8D0B: 85 BF     STA ram_00BF_death_script
 C - - - - - 0x038D1D 0E:8D0D: A9 2C     LDA #con_plr_state_2C
 C - - - - - 0x038D1F 0E:8D0F: 8D 65 05  STA ram_plr_state
 C - - - - - 0x038D22 0E:8D12: 60        RTS
@@ -2646,7 +2652,7 @@ C - - - - - 0x038D86 0E:8D76: A9 20     LDA #con_sfx_20
 C - - - - - 0x038D88 0E:8D78: 20 5F E2  JSR sub_0x03E26F_play_sound
 loc_8D7B:
 bra_8D7B:
-C D 0 - - - 0x038D8B 0E:8D7B: A5 BF     LDA ram_00BF
+C D 0 - - - 0x038D8B 0E:8D7B: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x038D8D 0E:8D7D: 30 0A     BMI bra_8D89
 C - - - - - 0x038D8F 0E:8D7F: A5 8B     LDA ram_008B
 C - - - - - 0x038D91 0E:8D81: C9 08     CMP #$08
@@ -2854,7 +2860,7 @@ C - - - - - 0x038EC8 0E:8EB8: 18        CLC
 C - - - - - 0x038EC9 0E:8EB9: 60        RTS
 bra_8EBA:
 C - - - - - 0x038ECA 0E:8EBA: A6 91     LDX ram_0091_object_index
-C - - - - - 0x038ECC 0E:8EBC: 86 B8     STX ram_00B8
+C - - - - - 0x038ECC 0E:8EBC: 86 B8     STX ram_00B8_object_index
 C - - - - - 0x038ECE 0E:8EBE: BD 4E 05  LDA ram_obj_id,X
 C - - - - - 0x038ED1 0E:8EC1: C9 79     CMP #$79
 C - - - - - 0x038ED3 0E:8EC3: 90 12     BCC bra_8ED7
@@ -2929,7 +2935,7 @@ C - - - - - 0x038F44 0E:8F34: 18        CLC
 C - - - - - 0x038F45 0E:8F35: 60        RTS
 bra_8F36:
 C - - - - - 0x038F46 0E:8F36: A6 91     LDX ram_0091_object_index
-C - - - - - 0x038F48 0E:8F38: 86 B8     STX ram_00B8
+C - - - - - 0x038F48 0E:8F38: 86 B8     STX ram_00B8_object_index
 C - - - - - 0x038F4A 0E:8F3A: BD 4E 05  LDA ram_obj_id,X
 C - - - - - 0x038F4D 0E:8F3D: C9 79     CMP #$79
 C - - - - - 0x038F4F 0E:8F3F: 90 12     BCC bra_8F53
@@ -3364,7 +3370,7 @@ bra_91F2:
 
 bra_91F9_01:
 C - - - - - 0x039209 0E:91F9: A6 91     LDX ram_0091_object_index
-C - - - - - 0x03920B 0E:91FB: 86 B8     STX ram_00B8
+C - - - - - 0x03920B 0E:91FB: 86 B8     STX ram_00B8_object_index
 C - - - - - 0x03920D 0E:91FD: BD 4E 05  LDA ram_obj_id,X
 C - - - - - 0x039210 0E:9200: C9 79     CMP #$79
 C - - - - - 0x039212 0E:9202: 90 33     BCC bra_9237
@@ -3704,7 +3710,7 @@ C - - - - - 0x039452 0E:9442: F0 15     BEQ bra_9459_RTS
 C - - - - - 0x039454 0E:9444: C9 02     CMP #con_plr_state_idle_on_ground
 C - - - - - 0x039456 0E:9446: D0 0C     BNE bra_9454
 C - - - - - 0x039458 0E:9448: A9 00     LDA #$00
-C - - - - - 0x03945A 0E:944A: 85 B9     STA ram_00B9
+C - - - - - 0x03945A 0E:944A: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x03945C 0E:944C: A9 18     LDA #con_plr_state_normal_atk_on_ground
 C - - - - - 0x03945E 0E:944E: 8D 65 05  STA ram_plr_state
 C - - - - - 0x039461 0E:9451: 4C 28 94  JMP loc_9428
@@ -3815,7 +3821,7 @@ C - - - - - 0x0394EC 0E:94DC: F0 15     BEQ bra_94F3_RTS
 C - - - - - 0x0394EE 0E:94DE: C9 02     CMP #$02
 C - - - - - 0x0394F0 0E:94E0: D0 0C     BNE bra_94EE
 C - - - - - 0x0394F2 0E:94E2: A9 00     LDA #$00
-C - - - - - 0x0394F4 0E:94E4: 85 B9     STA ram_00B9
+C - - - - - 0x0394F4 0E:94E4: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x0394F6 0E:94E6: A9 20     LDA #con_plr_state_subw_atk_on_ground
 C - - - - - 0x0394F8 0E:94E8: 8D 65 05  STA ram_plr_state
 C - - - - - 0x0394FB 0E:94EB: 4C C3 94  JMP loc_94C3
@@ -3891,9 +3897,9 @@ C - - J - - 0x039548 0E:9538: 20 21 84  JSR sub_8421    ; possible PLA PLA
 C - - - - - 0x03954B 0E:953B: B0 03     BCS bra_9540
 C - - - - - 0x03954D 0E:953D: 4C 3A 97  JMP loc_973A
 bra_9540:
-C - - - - - 0x039550 0E:9540: A5 B9     LDA ram_00B9
+C - - - - - 0x039550 0E:9540: A5 B9     LDA ram_00B9_disable_movement_timer
 C - - - - - 0x039552 0E:9542: F0 09     BEQ bra_954D
-C - - - - - 0x039554 0E:9544: C6 B9     DEC ram_00B9
+C - - - - - 0x039554 0E:9544: C6 B9     DEC ram_00B9_disable_movement_timer
 C - - - - - 0x039556 0E:9546: D0 EF     BNE bra_9537_RTS
 C - - - - - 0x039558 0E:9548: A9 02     LDA #$02
 C - - - - - 0x03955A 0E:954A: 8D 00 04  STA ram_plr_anim_id
@@ -4343,8 +4349,10 @@ C - - - - - 0x039836 0E:9826: C9 26     CMP #con_plr_state_knockback
 C - - - - - 0x039838 0E:9828: F0 0E     BEQ bra_9838
 C - - - - - 0x03983A 0E:982A: A9 0B     LDA #con_sfx_land
 C - - - - - 0x03983C 0E:982C: 20 5F E2  JSR sub_0x03E26F_play_sound
+; disable player movement for several frames
 C - - - - - 0x03983F 0E:982F: A9 0C     LDA #$0C
-C - - - - - 0x039841 0E:9831: 85 B9     STA ram_00B9
+C - - - - - 0x039841 0E:9831: 85 B9     STA ram_00B9_disable_movement_timer
+; 
 C - - - - - 0x039843 0E:9833: A9 0E     LDA #$0E
 C - - - - - 0x039845 0E:9835: 8D 00 04  STA ram_plr_anim_id
 bra_9838:
@@ -5466,7 +5474,7 @@ ofs_Grant_state_9E92_06:
 C - - J - - 0x039EA2 0E:9E92: A9 0E     LDA #$0E
 C - - - - - 0x039EA4 0E:9E94: 8D 00 04  STA ram_plr_anim_id
 C - - - - - 0x039EA7 0E:9E97: A9 04     LDA #$04
-C - - - - - 0x039EA9 0E:9E99: 85 B9     STA ram_00B9
+C - - - - - 0x039EA9 0E:9E99: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x039EAB 0E:9E9B: A9 00     LDA #$00
 C - - - - - 0x039EAD 0E:9E9D: 8D C1 05  STA ram_05C1_plr
 C - - - - - 0x039EB0 0E:9EA0: A9 1E     LDA #$1E
@@ -5493,7 +5501,7 @@ C - - - - - 0x039ED8 0E:9EC8: F0 40     BEQ bra_9F0A_RTS
 C - - - - - 0x039EDA 0E:9ECA: C9 02     CMP #con_plr_state_idle_on_ground
 C - - - - - 0x039EDC 0E:9ECC: D0 0C     BNE bra_9EDA
 - - - - - - 0x039EDE 0E:9ECE: A9 00     LDA #$00
-- - - - - - 0x039EE0 0E:9ED0: 85 B9     STA ram_00B9
+- - - - - - 0x039EE0 0E:9ED0: 85 B9     STA ram_00B9_disable_movement_timer
 - - - - - - 0x039EE2 0E:9ED2: A9 20     LDA #con_plr_state_subw_atk_on_ground
 - - - - - - 0x039EE4 0E:9ED4: 8D 65 05  STA ram_plr_state
 - - - - - - 0x039EE7 0E:9ED7: 4C C3 94  JMP loc_94C3
@@ -5518,7 +5526,7 @@ C - - - - - 0x039F03 0E:9EF3: F0 15     BEQ bra_9F0A_RTS
 C - - - - - 0x039F05 0E:9EF5: C9 02     CMP #$02
 C - - - - - 0x039F07 0E:9EF7: D0 0C     BNE bra_9F05
 C - - - - - 0x039F09 0E:9EF9: A9 00     LDA #$00
-C - - - - - 0x039F0B 0E:9EFB: 85 B9     STA ram_00B9
+C - - - - - 0x039F0B 0E:9EFB: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x039F0D 0E:9EFD: A9 18     LDA #con_plr_state_normal_atk_on_ground
 C - - - - - 0x039F0F 0E:9EFF: 8D 65 05  STA ram_plr_state
 C - - - - - 0x039F12 0E:9F02: 4C 28 94  JMP loc_9428
@@ -5706,7 +5714,7 @@ C - - - - - 0x03A051 0E:A041: D0 0E     BNE bra_A051
 C - - - - - 0x03A053 0E:A043: A9 0B     LDA #con_sfx_land
 C - - - - - 0x03A055 0E:A045: 20 5F E2  JSR sub_0x03E26F_play_sound
 C - - - - - 0x03A058 0E:A048: A9 0C     LDA #$0C
-C - - - - - 0x03A05A 0E:A04A: 85 B9     STA ram_00B9
+C - - - - - 0x03A05A 0E:A04A: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x03A05C 0E:A04C: A9 0E     LDA #$0E
 C - - - - - 0x03A05E 0E:A04E: 8D 00 04  STA ram_plr_anim_id
 bra_A051:
@@ -5776,7 +5784,7 @@ C - - - - - 0x03A0BA 0E:A0AA: A9 00     LDA #$00
 C - - - - - 0x03A0BC 0E:A0AC: 8D EF 05  STA ram_05EF_plr
 C - - - - - 0x03A0BF 0E:A0AF: 8D 06 06  STA ram_plr_config
 C - - - - - 0x03A0C2 0E:A0B2: 85 9D     STA ram_009D_flag
-C - - - - - 0x03A0C4 0E:A0B4: 85 B9     STA ram_00B9
+C - - - - - 0x03A0C4 0E:A0B4: 85 B9     STA ram_00B9_disable_movement_timer
 C - - - - - 0x03A0C6 0E:A0B6: A9 01     LDA #$01
 C - - - - - 0x03A0C8 0E:A0B8: 8D 1D 06  STA ram_061D_plr
 C - - - - - 0x03A0CB 0E:A0BB: AD A8 04  LDA ram_plr_facing
@@ -5799,9 +5807,9 @@ sub_A0D1:
 C - - - - - 0x03A0E1 0E:A0D1: AD 65 05  LDA ram_plr_state
 C - - - - - 0x03A0E4 0E:A0D4: C9 08     CMP #con_plr_state_jump
 C - - - - - 0x03A0E6 0E:A0D6: D0 0D     BNE bra_A0E5
-C - - - - - 0x03A0E8 0E:A0D8: A5 B9     LDA ram_00B9
+C - - - - - 0x03A0E8 0E:A0D8: A5 B9     LDA ram_00B9_disable_movement_timer
 C - - - - - 0x03A0EA 0E:A0DA: F0 09     BEQ bra_A0E5
-C - - - - - 0x03A0EC 0E:A0DC: C6 B9     DEC ram_00B9
+C - - - - - 0x03A0EC 0E:A0DC: C6 B9     DEC ram_00B9_disable_movement_timer
 C - - - - - 0x03A0EE 0E:A0DE: D0 05     BNE bra_A0E5
 C - - - - - 0x03A0F0 0E:A0E0: A9 16     LDA #$16
 C - - - - - 0x03A0F2 0E:A0E2: 8D 00 04  STA ram_plr_anim_id
@@ -7952,7 +7960,7 @@ bra_AE6D:
 loc_AE6D:
 C D 1 - - - 0x03AE7D 0E:AE6D: C9 0C     CMP #$0C
 C - - - - - 0x03AE7F 0E:AE6F: F0 04     BEQ bra_AE75
-C - - - - - 0x03AE81 0E:AE71: A5 BF     LDA ram_00BF
+C - - - - - 0x03AE81 0E:AE71: A5 BF     LDA ram_00BF_death_script
 C - - - - - 0x03AE83 0E:AE73: 30 F7     BMI bra_AE6C_RTS
 bra_AE75:
 C - - - - - 0x03AE85 0E:AE75: AD FD AE  LDA tbl_AEFC_return + $01
